@@ -106,7 +106,7 @@ void cria_lista(){
        aux = inicio.entrada;
 for(int i = 0; i < 20; i++){
     printf("%d",aux->indice);
-    aux = aux->
+    aux = aux->prox;
     }
     free(aux);
 
