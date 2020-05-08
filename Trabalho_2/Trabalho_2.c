@@ -142,13 +142,13 @@ void produz_elemento(int dado){
 //Lê o buffer
 //return - retorna o dado lido no buffer
 int consome_elemento(){
-
+printf("entrou\n");
     //Le na primeira posição da lista de saida
     int dado = BUFFER[(inicio.saida)->indice];
-
+printf("entrou\n");
     //Elimina esse elemento da lista de saida e passa-o para a lista de entrada
     troca_elementos(1);
-
+printf("entrou\n");
     //Aumenta o contador de espaçoes livres do buffer
     espaco_livre++;
 
