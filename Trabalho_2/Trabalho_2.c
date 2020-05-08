@@ -40,7 +40,7 @@ struct ref_fila{
 };
 
 //declara e inicia a struct ref_fila para uso nas funções
-struct ref_fila inicio, fim;
+struct ref_fila inicio, final;
 
 //Funções do programa
 void cria_lista();                         //Cria e inicializa as listas de buffer livre e cheio
@@ -90,17 +90,17 @@ void cria_lista(){
     inicio.entrada->prox = NULL;
     fim.entrada = inicio.entrada;
     for(int i = 1; i < 20; i++){
-        fim.entrada->prox = (struct fila*)malloc(sizeof(struct fila));
-        if(fim.entrada->prox == NULL){
+        final.entrada->prox = (struct fila*)malloc(sizeof(struct fila));
+        if(final.entrada->prox == NULL){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
             return;
-        }fim.entrada = fim.entrada->prox;
-        fim.entrada->mapa = &BUFFER[i];
-        fim.entrada->prox = NULL;
+        }final.entrada = final.entrada->prox;
+        final.entrada->mapa = &BUFFER[i];
+        final.entrada->prox = NULL;
     }
     //Inicia o primeiro elemento da lista de saida
     inicio.saida = NULL;
-    fim.saida = NULL;
+    final.saida = NULL;
 
     return;
 }
@@ -130,7 +130,7 @@ void produz_elemento(int dado){
     printf("entrou\n");
 
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
-    troca_elementos(&inicio.entrada, &fim.saida);
+    troca_elementos(&inicio.entrada, &final.saida);
 printf("saiu\n");
     //Diminui o contador de espaçoes livres do buffer
     espaco_livre--;
@@ -146,7 +146,7 @@ int consome_elemento(){
     int dado = *((inicio.saida)->mapa);
 
     //Elimina esse elemento da lista de saida e passa-o para a lista de entrada
-    troca_elementos(&inicio.saida, &fim.entrada);
+    troca_elementos(&inicio.saida, &final.entrada);
 
     //Aumenta o contador de espaçoes livres do buffer
     espaco_livre++;
