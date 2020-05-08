@@ -42,11 +42,9 @@ struct ref_fila{
 };
 
 //declara e inicia a struct ref_fila para uso nas funções
-ref_fila inicio  = (ref_fila)malloc(sizeof(ref_fila));
-if(inicio == NULL){
-    printf("Não foi possivel alocar memoria para a lista de buffer\n");
-    exit(-1);
-}
+struct ref_fila inicio;
+inicio.entrada = NULL;
+inicio.saida = NULL;
 
 //Funções do programa
 void cria_lista();                          //Cria e inicializa as listas de buffer livre e cheio
