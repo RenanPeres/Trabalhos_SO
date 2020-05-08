@@ -118,7 +118,7 @@ void produz_elemento(int dado){
 
 //Lê o buffer
 //return - retorna o dado lido no buffer
-int consome_elemento((void*)arg){
+int consome_elemento(){
 
     //Le na primeira posição da lista de saida
     int dado = *((inicio.saida)->mapa);
