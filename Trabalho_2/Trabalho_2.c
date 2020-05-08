@@ -191,7 +191,7 @@ void *consumidor(){
 
     int dado;       //Variável dos dados a ser lida no buffer
     int teste = 1;  //Variável de validação da condição de thread
-	printf("4");
+
     while(1){
 
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
@@ -200,7 +200,7 @@ void *consumidor(){
         if(espaco_livre == 20){
             if(fim) exit(EXIT_SUCCESS); //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
-            while(teste) teste = pthread_cond_wait(&libera, &thread_control);
+            pthread_cond_wait(&libera, &thread_control);
             espera_consumidor = 0;
         }pthread_mutex_unlock(&thread_control);
         printf("22\n");
