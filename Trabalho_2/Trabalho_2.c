@@ -74,7 +74,7 @@ int main(){
 }
 
 void *escreve(){
-    printf("%d%d",*((inicio.entrada)->mapa), *((inicio.saida)->mapa));
+    printf("escreveu: %d%d",*((inicio.entrada)->mapa), *((inicio.saida)->mapa));
 }
 
 //Cria e inicializa as listas de buffer livre e cheio
@@ -113,8 +113,11 @@ void troca_elementos(struct fila **f1, struct fila **f2){
  
     printf("entrou\n");
     (*f2)->prox = (*f1);
+    printf("11\n");
     (*f2) = (*f2)->prox;
+    printf("12\n");
     (*f2)->prox = NULL;
+    printf("13\n");
     (*f1) = (*f1)->prox;
    
     return;
