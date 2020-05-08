@@ -128,6 +128,7 @@ void produz_elemento(int dado){
 printf("entrou\n");
     //Escreve na primeira posição da lista de entrada
     BUFFER[(inicio.entrada)->indice] = dado;
+    printf("entrou\n");
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(0);
      printf("saiu\n");
