@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <syscall.h>
+#include <time.h>
 
 //Buffer limitado global (disponível a todos os processos)
 int BUFFER[20];
@@ -55,6 +56,7 @@ int main(){
     pthread_t t1; //Thread do processo produtor
     pthread_t t2; //Thread do processo consumidor
 
+    srand(time(NULL));//Para criar o valor aleatorio
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
     printf("\nLeitura dos dados do Buffer:\n\n");
     if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
@@ -154,7 +156,7 @@ void *produtor(){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
   
-   while(dado < 100){
+   while(dado < 200){
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
         if(espaco_livre == 0){
@@ -173,7 +175,7 @@ void *produtor(){
         pthread_mutex_unlock(&thread_control);
        
         //Altera aleatoriamente o valor do dado
-        dado  += (rand() % 10);
+        dado  += (rand() % 13);
     }
 
     //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
