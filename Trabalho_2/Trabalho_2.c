@@ -105,7 +105,7 @@ void cria_lista(){
 //Transfere o primeiro elemento da fila 1 para o final da fila 2
 //int n - determina qual o metodo a ser realizado
 void troca_elementos(int n){
- 
+ printf("entrou\n");
     if(n == 0){
         (final.saida == NULL) ? (inicio.saida = inicio.entrada) : (final.saida->prox = inicio.entrada);
         final.saida = inicio.entrada;
@@ -129,6 +129,7 @@ printf("entrou\n");
     BUFFER[(inicio.entrada)->indice] = dado;
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(0);
+     printf("saiu\n");
     //Diminui o contador de espaçoes livres do buffer
     espaco_livre--;
     return;
