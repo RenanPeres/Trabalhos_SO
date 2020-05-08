@@ -46,7 +46,7 @@ struct ref_fila{
 //Funções do programa
 void cria_lista();                         //Cria e inicializa as listas de buffer livre e cheio
 void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
-//void produz_elemento(int dado);             //Escreve no buffer
+void *produz_elemento(int dado);             //Escreve no buffer
 void *consome_elemento();                     //Lê o buffer
 //void *produtor();                            //Função produtor 
 //void *consumidor();                          //Função consumidor
@@ -59,11 +59,11 @@ int main(){
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
     printf("Foram lidos, no buffer:\n\n");
-    if(pthread_create(&t1, NULL, consome_elemento, NULL)){   //Inicia e testa o processo produtor
+    if(pthread_create(&t1, NULL, produz_elemento, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
-    }
-    if(pthread_create(&t2, NULL, escreve, NULL)){  //Inicia e testa o processo consumidor
+    }sleep(3);
+    if(pthread_create(&t2, NULL, consome_elemento, NULL)){  //Inicia e testa o processo consumidor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
     }
@@ -95,7 +95,6 @@ void cria_lista(){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
             return;
         }aux = aux->prox;
-        BUFFER[i] = 1;
         aux->mapa = &BUFFER[i];
         aux->prox = NULL;
     }
@@ -144,13 +143,13 @@ void troca_elementos(struct fila **f1, struct fila **f2){
     return;
 }
 
-/*
+
 //Escreve no buffer
 //int dado - dado a ser escrito no buffer
 void produz_elemento(int dado){
 
     //Escreve na primeira posição da lista de entrada
-    *((inicio.entrada)->mapa) = dado;
+    *((inicio.entrada)->mapa) = 2;
 
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(&inicio.entrada, &inicio.saida);
@@ -160,7 +159,6 @@ void produz_elemento(int dado){
 
     return;
 }
-*/
 
 //Lê o buffer
 //return - retorna o dado lido no buffer
