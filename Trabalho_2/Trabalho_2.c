@@ -181,11 +181,11 @@ void *produtor(){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
     int teste = 1; //Variável de validação da condição de thread
-   printf("3");
- /*   while(dado < 5){
-
+  
+   while(dado < 5){
+ printf("3\n");
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
-        pthread_mutex_lock(&thread_control);
+    /*    pthread_mutex_lock(&thread_control);
         if(espaco_livre == 0){
             espera_produtor ++;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
@@ -201,10 +201,10 @@ void *produtor(){
         pthread_mutex_lock(&thread_control);
         if(espera_consumidor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
-        
+     */   
         //Altera aleatoriamente o valor do dado
         dado  += (rand() % 15);
-    }*/
+    }
 
     //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
     fim = 1;
