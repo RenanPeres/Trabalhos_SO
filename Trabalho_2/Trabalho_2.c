@@ -48,8 +48,8 @@ void cria_lista();                          //Cria e inicializa as listas de buf
 void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
 void produz_elemento(int dado);             //Escreve no buffer
 int consome_elemento();                     //Lê o buffer
-void *produtor(void *arg);                            //Função produtor 
-void *consumidor(void *arg);                          //Função consumidor
+void produtor();                            //Função produtor 
+void consumidor();                          //Função consumidor
 
 int main(){
 
@@ -172,7 +172,7 @@ int consome_elemento(){
 }
 
 //Função produtor 
-void *produtor(void *arg){
+void produtor(){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
     int teste = 1; //Variável de validação da condição de thread
@@ -207,7 +207,7 @@ void *produtor(void *arg){
 }
 
 //Função consumidor
-void *consumidor(void *arg){
+void consumidor(){
 
     int dado;       //Variável dos dados a ser lida no buffer
     int teste = 1;  //Variável de validação da condição de thread
