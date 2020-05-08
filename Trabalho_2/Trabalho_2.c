@@ -56,7 +56,7 @@ int main(){
     pthread_t t2; //Thread do processo consumidor
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
-    printf("Foram lidos, no buffer:\n\n");
+    printf("Leitura dos dados do Buffer:\n\n");
     if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
@@ -67,9 +67,9 @@ int main(){
     }
     //Espera a conclusão das threads
     pthread_join(t1, NULL);
-    printf("chegou aqui\n");
+    printf("Termino do processo produtor!\n");
     pthread_join(t2, NULL);
-    printf("chegou aqui tbm\n");
+    printf("Termino do processo consumidor!\n");
     return 0;
 }
 
@@ -105,7 +105,7 @@ void cria_lista(){
 //Transfere o primeiro elemento da fila 1 para o final da fila 2
 //int n - determina qual o metodo a ser realizado
 void troca_elementos(int n){
- printf("entrou\n");
+
     if(n == 0){
         (final.saida == NULL) ? (inicio.saida = inicio.entrada) : (final.saida->prox = inicio.entrada);
         final.saida = inicio.entrada;
@@ -127,13 +127,11 @@ void troca_elementos(int n){
 //Escreve no buffer
 //int dado - dado a ser escrito no buffer
 void produz_elemento(int dado){
-printf("entrou\n");
+
     //Escreve na primeira posição da lista de entrada
     BUFFER[(inicio.entrada)->indice] = dado;
-    printf("entrou\n");
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(0);
-     printf("saiu\n");
     //Diminui o contador de espaçoes livres do buffer
     espaco_livre--;
     return;
@@ -142,12 +140,10 @@ printf("entrou\n");
 //Lê o buffer
 //return - retorna o dado lido no buffer
 int consome_elemento(){
-printf("entrou\n");
     //Le na primeira posição da lista de saida
     int dado = BUFFER[(inicio.saida)->indice];
     //Elimina esse elemento da lista de saida e passa-o para a lista de entrada
     troca_elementos(1);
-    printf("saiu\n");
     //Aumenta o contador de espaçoes livres do buffer
     espaco_livre++;
     return dado;
@@ -158,34 +154,27 @@ void *produtor(){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
   
-   while(dado < 50){
+   while(dado < 100){
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
-        printf("10\n");
         pthread_mutex_lock(&thread_control);
-        printf("11\n");
         if(espaco_livre == 0){
             espera_produtor = 1;
             while(espera_produtor) espera_produtor = pthread_cond_wait(&libera, &thread_control);
         }pthread_mutex_unlock(&thread_control);
-        printf("12\n");
 
         //Escreve no buffer
         pthread_mutex_lock(&buffer_control);
-        printf("13\n");
         produz_elemento(dado);
         pthread_mutex_unlock(&buffer_control);
-        printf("14\n");
 
         //Verifica se o processo consumidor está em pausa e libera-o
         pthread_mutex_lock(&thread_control);
         printf("15\n");
         if(espera_consumidor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
-        printf("16\n");
        
         //Altera aleatoriamente o valor do dado
-        dado  += (rand() % 15);
-        printf("%d\n", dado);
+        dado  += (rand() % 10);
     }
 
     //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
@@ -202,33 +191,24 @@ void *consumidor(){
 
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
-        printf("21\n");
         if(espaco_livre == 20){
             if(fim) return; //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
-            printf("21\n");
             while(espera_consumidor) espera_consumidor = pthread_cond_wait(&libera, &thread_control);
-            printf("21\n");
         }pthread_mutex_unlock(&thread_control);
-        printf("22\n");
 
         //Lê o buffer
         pthread_mutex_lock(&buffer_control);
-        printf("23\n");
         dado = consome_elemento();
-        printf("saiu\n");
         pthread_mutex_unlock(&buffer_control);
-        printf("24\n");
 
         //Verifica se o processo produtor está em pausa e libera-o
         pthread_mutex_lock(&thread_control);
-        printf("25\n");
         if(espera_produtor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
-        printf("26\n");
 
         //Exibe na tela o dado lido no buffer
-        printf("%d\n", dado);
+        printf("Novo dado lido: %d\n", dado);
 
     }    
 }
