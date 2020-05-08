@@ -12,8 +12,10 @@
 
 //Buffer limitado global (disponível a todos os processos)
 #define TAM_BUFFER 20;
-int BUFFER[20];
-int espaco_livre = 20;
+#define RANGE 200;
+#define MOD 13;
+int BUFFER[TAM_BUFFER];
+int espaco_livre = TAM_BUFFER;
 
 //Variáveis de sinal para saber se um processo esta em execução
 int espera_produtor = 0;
@@ -88,7 +90,7 @@ void cria_lista(){
     inicio.entrada->indice = 0;
     inicio.entrada->prox = NULL;
     final.entrada = inicio.entrada;
-    for(int i = 1; i < 20; i++){
+    for(int i = 1; i < TAM_BUFFER; i++){
         final.entrada->prox = (struct fila*)malloc(sizeof(struct fila));
         if(final.entrada->prox == NULL){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
@@ -157,7 +159,7 @@ void *produtor(){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
   
-   while(dado < 200){
+   while(dado < RANGE){
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
         if(espaco_livre == 0){
@@ -176,7 +178,7 @@ void *produtor(){
         pthread_mutex_unlock(&thread_control);
        
         //Altera aleatoriamente o valor do dado
-        dado  += (rand() % 13);
+        dado  += (rand() % MOD);
     }
 
     //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
@@ -193,7 +195,7 @@ void *consumidor(){
 
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
-        if(espaco_livre == 20){
+        if(espaco_livre == TAM_BUFFER){
             if(fim) return; //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
             while(espera_consumidor) espera_consumidor = pthread_cond_wait(&libera, &thread_control);
