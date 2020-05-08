@@ -5,19 +5,14 @@
 #ifndef BIBLIOTECA_T2
 #define BIBLIOTECA_T2
 
-//Constantes globais
-#define TAM_BUFFER 20;
-#define TRUE 1;
-#define FALSE 0;
-
 //Buffer limitado global (disponível a todos os processos)
-int BUFFER[TAM_BUFFER];
-int espaco_livre = TAM_BUFFER;
+int BUFFER[20];
+int espaco_livre = 20;
 
 //Variáveis de sinal para saber se um processo esta em execução
-int espera_produtor = FALSE;
-int espera_consumidor = FALSE;
-int fim = FALSE;
+int espera_produtor = 0;
+int espera_consumidor = 0;
+int fim = 0;
 
 //Semáforos de controle das threads
 pthread_mutex_t buffer_control = PTHREAD_MUTEX_INITIALIZER; //Controla o uso do buffer

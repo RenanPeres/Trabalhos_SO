@@ -11,7 +11,6 @@
 #include <fcntl.h>
 #include "trabalho2.h"
 
-
 //Cria e inicializa as listas de buffer livre e cheio
 void cria_lista(){
 
@@ -27,18 +26,15 @@ void cria_lista(){
 
     //Cria um elemento fila para cada casa do buffer disponibilizado na lista de entrada de dados
     inicio.entrada = aux;
-    for(int i = 1; i < TAM_BUFFER; i++){
+    for(int i = 1; i < 20; i++){
         aux->prox = (struct fila*)malloc(sizeof(struct fila));
         if(aux->prox == NULL){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
-            return(-1);
+            return;
         }aux = aux->prox;
         aux->mapa = &BUFFER[i];
         aux->prox = NULL;
     }
-    
-    //Lista de saida de dados não possui elemento, então é sinalizado
-    inicio.saida = NULL;
     
     //Boas práticas de programação para liberar memória
     aux = NULL;
@@ -123,19 +119,19 @@ void produtor(){
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
         if(espaco_livre == 0){
-            espera_produtor = TRUE;
+            espera_produtor ++;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
-            espera_produtor = FALSE;
+            espera_produtor --;
         }pthread_mutex_unlock(&buffer_control);
 
         //Escreve no buffer
-        pthread_mutex_lock(buffer_control);
+        pthread_mutex_lock(&buffer_control);
         produz_elemento(dado);
         pthread_mutex_unlock(&buffer_control);
 
         //Verifica se o processo consumidor está em pausa e libera-o
         pthread_mutex_lock(&thread_control);
-        if(espera_consumidor == TRUE) pthread_cond_signal(&libera);
+        if(espera_consumidor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
         
         //Altera aleatoriamente o valor do dado
@@ -143,24 +139,25 @@ void produtor(){
     }
 
     //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
-    fim = TRUE;
+    fim = 1;
     return;
 }
 
+//Função consumidor
 void consumidor(){
 
     int dado;       //Variável dos dados a ser lida no buffer
     int teste = 1;  //Variável de validação da condição de thread
 
-    while(TRUE){
+    while(1){
 
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
-        if(espaco_livre == TAM_BUFFER){
+        if(espaco_livre == 20){
             if(fim) return; //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
-            espera_consumidor = TRUE;
+            espera_consumidor = 1;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
-            espera_consumidor = FALSE;
+            espera_consumidor = 0;
         }pthread_mutex_unlock(&buffer_control);
 
         //Lê o buffer
@@ -170,7 +167,7 @@ void consumidor(){
 
         //Verifica se o processo produtor está em pausa e libera-o
         pthread_mutex_lock(&thread_control);
-        if(espera_produtor == TRUE) pthread_cond_signal(&libera);
+        if(espera_produtor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
 
         //Exibe na tela o dado lido no buffer
