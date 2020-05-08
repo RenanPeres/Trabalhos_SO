@@ -204,7 +204,7 @@ void *produtor(){
         
         //Altera aleatoriamente o valor do dado
         dado  += (rand() % 15);
-   */ }
+    }*/
 
     //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
     fim = 1;
