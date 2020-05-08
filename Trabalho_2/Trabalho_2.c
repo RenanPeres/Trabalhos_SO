@@ -169,14 +169,14 @@ void *produtor(){
         }pthread_mutex_unlock(&thread_control);
 
         //Escreve no buffer
-        //pthread_mutex_lock(&buffer_control);
+        pthread_mutex_lock(&buffer_control);
         produz_elemento(dado);
-        //pthread_mutex_unlock(&buffer_control);
+        pthread_mutex_unlock(&buffer_control);
 
         //Verifica se o processo consumidor está em pausa e libera-o
-    //    pthread_mutex_lock(&thread_control);
-     //   if(espera_consumidor == 1) pthread_cond_signal(&libera);
-     //   pthread_mutex_unlock(&thread_control);
+        pthread_mutex_lock(&thread_control);
+        if(espera_consumidor == 1) pthread_cond_signal(&libera);
+        pthread_mutex_unlock(&thread_control);
        
         //Altera aleatoriamente o valor do dado
         dado  += (rand() % 15);
