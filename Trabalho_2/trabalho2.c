@@ -16,18 +16,18 @@ void cria_lista(){
 
     //Elemento *fila auxiliar
     fila *aux;
-    aux = (fila*)malloc(sizeof(fila));
+    aux = (struct fila*)malloc(sizeof(struct fila));
     if(aux == NULL){
         printf("Não foi possivel alocar memoria para a lista de buffer\n");
         return(-1);
     }
-    aux->mapa = BUFFER;
+    aux->mapa = &BUFFER[0];
     aux->prox = NULL;
 
     //Cria um elemento fila para cada casa do buffer disponibilizado na lista de entrada de dados
     inicio.entrada = aux;
     for(int i = 1; i < TAM_BUFFER; i++){
-        aux->prox = (fila*)malloc(sizeof(fila));
+        aux->prox = (struct fila*)malloc(sizeof(struct fila));
         if(aux->prox == NULL){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
             return(-1);
@@ -52,7 +52,7 @@ void cria_lista(){
 void troca_elementos(fila **f1, fila **f2){
     
     //Elemento *fila auxiliar
-    fila *aux;
+    struct fila *aux;
 
     //Proucura o último elemento em **f2, caso a lista esteja vazia, cria o primeiro elemento
     aux = *f2;
@@ -61,7 +61,7 @@ void troca_elementos(fila **f1, fila **f2){
             aux = aux->prox;
         }aux->prox = *f1;
     }else{
-        aux = (fila*)malloc(sizeof(fila));
+        aux = (struct fila*)malloc(sizeof(struct fila));
         if(aux == NULL){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
             return(-1);
