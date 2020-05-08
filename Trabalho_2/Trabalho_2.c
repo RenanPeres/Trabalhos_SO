@@ -67,9 +67,9 @@ int main(){
     }
     //Espera a conclusão das threads
     pthread_join(t1, NULL);
-    printf("\nTermino do processo produtor!\n");
+    printf("\n> > > Termino do processo produtor! < < <\n\n");
     pthread_join(t2, NULL);
-    printf("\nTermino do processo consumidor!\n");
+    printf("\n> > > Termino do processo consumidor! < < <\n\n");
     return 0;
 }
 
