@@ -44,13 +44,13 @@ struct ref_fila{
 };
 
 //Funções do programa
-void cria_lista();   /*                       //Cria e inicializa as listas de buffer livre e cheio
+void cria_lista();                         //Cria e inicializa as listas de buffer livre e cheio
 void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
-void produz_elemento(int dado);             //Escreve no buffer
+//void produz_elemento(int dado);             //Escreve no buffer
 int consome_elemento();                     //Lê o buffer
-void *produtor();                            //Função produtor 
-void *consumidor();                          //Função consumidor
-*/void *escreve();
+//void *produtor();                            //Função produtor 
+//void *consumidor();                          //Função consumidor
+void *escreve();
 
 int main(){
 
@@ -59,7 +59,7 @@ int main(){
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
     printf("Foram lidos, no buffer:\n\n");
-    if(pthread_create(&t1, NULL, escreve, NULL)){   //Inicia e testa o processo produtor
+    if(pthread_create(&t1, NULL, consome_elemento, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
     }
@@ -95,10 +95,8 @@ void cria_lista(){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
             return;
         }aux = aux->prox;
-        BUFFER[i] = 1;
         aux->mapa = &BUFFER[i];
         aux->prox = NULL;
-        printf("%d\n", *(aux->mapa));
     }
     //Inicia o primeiro elemento da lista de saida
     inicio.saida = NULL;
@@ -113,7 +111,7 @@ void *escreve(){
     printf("foi\n");
 }
 
-/*
+
 //Transfere o primeiro elemento da fila 1 para o final da fila 2
 //fila **f1 - ponteiro da fila que tera seu elemento excluido da lista
 //fila **f2 - ponteiro da fila que tera um elemento adicionado à lista
@@ -145,7 +143,7 @@ void troca_elementos(struct fila **f1, struct fila **f2){
     return;
 }
 
-
+/*
 //Escreve no buffer
 //int dado - dado a ser escrito no buffer
 void produz_elemento(int dado){
@@ -161,11 +159,11 @@ void produz_elemento(int dado){
 
     return;
 }
-
+*/
 
 //Lê o buffer
 //return - retorna o dado lido no buffer
-int consome_elemento(){
+int *consome_elemento(){
 
     //Le na primeira posição da lista de saida
     int dado = *((inicio.saida)->mapa);
@@ -178,7 +176,7 @@ int consome_elemento(){
 
     return dado;
 }
-
+/*
 //Função produtor 
 void *produtor(){
 
