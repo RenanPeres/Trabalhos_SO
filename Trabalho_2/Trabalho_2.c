@@ -188,7 +188,7 @@ void *produtor(){
         //pthread_mutex_lock(&thread_control);
         if(espaco_livre == 0){
             espera_produtor ++;
-            while(teste) teste = pthread_cond_wait(&libera, &thread_control);
+        //    while(teste) teste = pthread_cond_wait(&libera, &thread_control);
             espera_produtor --;
         }//pthread_mutex_unlock(&buffer_control);
 
