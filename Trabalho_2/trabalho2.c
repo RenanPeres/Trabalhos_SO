@@ -19,6 +19,7 @@ void cria_lista(){
     aux->mapa = BUFFER;
     aux->prox = NULL;
 
+   /Cria um elemento fila para cada casa do buffer disponibilizado na lista de entrada de dados
     inicio.entrada = aux;
     for(int i = 1; i < TAM_BUFFER; i++){
         aux->prox = (fila*)malloc(sizeof(fila));
