@@ -123,7 +123,7 @@ void troca_elementos(int n){
 //Escreve no buffer
 //int dado - dado a ser escrito no buffer
 void produz_elemento(int dado){
-
+printf("entrou\n");
     //Escreve na primeira posição da lista de entrada
     BUFFER[(inicio.entrada)->indice] = dado;
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
@@ -136,11 +136,12 @@ void produz_elemento(int dado){
 //Lê o buffer
 //return - retorna o dado lido no buffer
 int consome_elemento(){
-
+printf("entrou\n");
     //Le na primeira posição da lista de saida
     int dado = BUFFER[(inicio.saida)->indice];
     //Elimina esse elemento da lista de saida e passa-o para a lista de entrada
     troca_elementos(1);
+    printf("saiu\n");
     //Aumenta o contador de espaçoes livres do buffer
     espaco_livre++;
     return dado;
@@ -212,6 +213,7 @@ void *consumidor(){
         pthread_mutex_lock(&buffer_control);
         printf("23\n");
         dado = consome_elemento();
+        printf("saiu\n");
         pthread_mutex_unlock(&buffer_control);
         printf("24\n");
 
