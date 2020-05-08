@@ -153,7 +153,7 @@ void produz_elemento(int dado){
 
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(&inicio.entrada, &inicio.saida);
-
+printf("saiu\n");
     //Diminui o contador de espaçoes livres do buffer
     espaco_livre--;
 
