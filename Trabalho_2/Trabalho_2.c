@@ -61,7 +61,7 @@ int main(){
     if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
-    }sleep(3);
+    }
     if(pthread_create(&t2, NULL, consumidor, NULL)){  //Inicia e testa o processo consumidor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
