@@ -49,7 +49,7 @@ void produz_elemento(int dado);             //Escreve no buffer
 int consome_elemento();                     //Lê o buffer
 void *produtor();                            //Função produtor 
 void *consumidor();                          //Função consumidor
-
+void teste();
 
 int main(){
 
@@ -57,6 +57,7 @@ int main(){
     pthread_t t2; //Thread do processo consumidor
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
+    void teste();
     printf("Foram lidos, no buffer:\n\n");
     if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
@@ -71,6 +72,12 @@ int main(){
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
     return 0;
+}
+
+void teste(){
+    struct fila *aux;
+    aux = inicio.entrada;
+    while(aux != NULL)printf("%d%d", aux->indice, BUFFER[aux->indice]);
 }
 
 //Cria e inicializa as listas de buffer livre e cheio
