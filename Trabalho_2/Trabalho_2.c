@@ -10,8 +10,7 @@
 #include <syscall.h>
 
 //Buffer limitado global (disponível a todos os processos)
-#define TAM_BUFFER 20;
-int BUFFER[TAM_BUFFER];
+int BUFFER[20];
 int espaco_livre = 20;
 
 //Variáveis de sinal para saber se um processo esta em execução
@@ -89,7 +88,7 @@ void cria_lista(){
 
     //Cria um elemento fila para cada casa do buffer disponibilizado na lista de entrada de dados
     inicio.entrada = aux;
-    for(int i = 1; i < TAM_BUFFER; i++){
+    for(int i = 1; i < 20; i++){
         aux->prox = (struct fila*)malloc(sizeof(struct fila));
         if(aux->prox == NULL){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
@@ -179,7 +178,7 @@ void *produtor(){
     int dado = 1;  //Variável dos dados a ser escrita no buffer
     int teste = 1; //Variável de validação da condição de thread
    printf("3");
-    while(dado < 100){
+    while(dado < 50){
 
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
@@ -218,7 +217,7 @@ void *consumidor(){
 
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
-        if(espaco_livre == TAM_BUFFER){
+        if(espaco_livre == 20){
             if(fim) exit(EXIT_SUCCESS); //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
