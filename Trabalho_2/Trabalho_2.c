@@ -154,7 +154,7 @@ int consome_elemento(){
 //Função produtor 
 void *produtor(){
 
-    int dado = 1;  //Variável dos dados a ser escrita no buffer
+    int dado = (rand() % 13);  //Variável dos dados a ser escrita no buffer
   
    while(dado < 200){
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
@@ -180,7 +180,6 @@ void *produtor(){
 
     //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
     fim = 1;
-    return;
 }
 
 //Função consumidor
@@ -193,7 +192,7 @@ void *consumidor(){
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
         if(espaco_livre == 20){
-            if(fim) return; //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
+            if(fim) (void) return; //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
             while(espera_consumidor) espera_consumidor = pthread_cond_wait(&libera, &thread_control);
         }pthread_mutex_unlock(&thread_control);
