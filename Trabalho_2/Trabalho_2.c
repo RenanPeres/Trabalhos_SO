@@ -88,7 +88,7 @@ void cria_lista(){
     }
     inicio.entrada->mapa = &BUFFER[0];
     inicio.entrada->prox = NULL;
-    fim.entrada = inicio.entrada;
+    final.entrada = inicio.entrada;
     for(int i = 1; i < 20; i++){
         final.entrada->prox = (struct fila*)malloc(sizeof(struct fila));
         if(final.entrada->prox == NULL){
