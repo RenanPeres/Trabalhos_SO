@@ -113,20 +113,20 @@ void troca_elementos(struct fila **f1, struct fila **f2){
  
     printf("entrou\n");
     if(*f2 == NULL){
-        *f2 = (struct fila*)malloc(sizeof(struct fila));
-        if(*f2 == NULL){
-            printf("Não foi possivel alocar memoria para a lista de buffer\n");
-            return;
-        }
+         (*f2) = (*f1);
+        printf("11\n");
+        (*f2)->prox = NULL;
+        printf("13\n");
+        (*f1) = (*f1)->prox;
+    }else{
+        (*f2)->prox = (*f1);
+        printf("11\n");
+        (*f2) = (*f2)->prox;
+        printf("12\n");
+        (*f2)->prox = NULL;
+        printf("13\n");
+        (*f1) = (*f1)->prox;
     }
-    (*f2)->prox = (*f1);
-    printf("11\n");
-    (*f2) = (*f2)->prox;
-    printf("12\n");
-    (*f2)->prox = NULL;
-    printf("13\n");
-    (*f1) = (*f1)->prox;
-   
     return;
 }
 
