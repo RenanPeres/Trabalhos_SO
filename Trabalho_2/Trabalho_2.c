@@ -154,6 +154,7 @@ void *produtor(){
   
    while(dado < 50){
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
+        printf("10\n");
         pthread_mutex_lock(&thread_control);
         printf("11\n");
         if(espaco_livre == 0){
