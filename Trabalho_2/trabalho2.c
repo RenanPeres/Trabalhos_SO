@@ -10,14 +10,8 @@
 #include <syscall.h>
 #include <fcntl.h>
 #include "trabalho2.h"
-<<<<<<< HEAD
-=======
 
-<<<<<<< HEAD
->>>>>>> c21d381afeca58dd6f8e1e09d83150c7113bfd79
 
-=======
->>>>>>> 3c96c4bc78ded630dce8f8b7af0b2a2859fb7c0d
 //Cria e inicializa as listas de buffer livre e cheio
 void cria_lista(){
 
