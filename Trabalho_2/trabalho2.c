@@ -110,3 +110,70 @@ int consome_elemento(){
 
     return dado;
 }
+
+//Função produtor 
+void produtor(){
+
+    int dado = 1;  //Variável dos dados a ser escrita no buffer
+    int teste = 1; //Variável de validação da condição de thread
+   
+    while(dado < 200){
+
+        //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
+        pthread_mutex_lock(&thread_control);
+        if(espaco_livre == 0){
+            espera_produtor = TRUE;
+            while(teste) teste = pthread_cond_wait(&libera, &thread_control);
+            espera_produtor = FALSE;
+        }pthread_mutex_unlock(&buffer_control);
+
+        //Escreve no buffer
+        pthread_mutex_lock(buffer_control);
+        produz_elemento(dado);
+        pthread_mutex_unlock(&buffer_control);
+
+        //Verifica se o processo consumidor está em pausa e libera-o
+        pthread_mutex_lock(&thread_control);
+        if(espera_consumidor == TRUE) pthread_cond_signal(&libera);
+        pthread_mutex_unlock(&thread_control);
+        
+        //Altera aleatoriamente o valor do dado
+        dado  += (rand() % 15);
+    }
+
+    //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
+    fim = TRUE;
+    return;
+}
+
+void consumidor(){
+
+    int dado;       //Variável dos dados a ser lida no buffer
+    int teste = 1;  //Variável de validação da condição de thread
+
+    while(TRUE){
+
+        //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
+        pthread_mutex_lock(&thread_control);
+        if(espaco_livre == TAM_BUFFER){
+            if(fim) return; //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
+            espera_consumidor = TRUE;
+            while(teste) teste = pthread_cond_wait(&libera, &thread_control);
+            espera_consumidor = FALSE;
+        }pthread_mutex_unlock(&buffer_control);
+
+        //Lê o buffer
+        pthread_mutex_lock(buffer_control);
+        dado = consome_elemento();
+        pthread_mutex_unlock(&buffer_control);
+
+        //Verifica se o processo produtor está em pausa e libera-o
+        pthread_mutex_lock(&thread_control);
+        if(espera_produtor == TRUE) pthread_cond_signal(&libera);
+        pthread_mutex_unlock(&thread_control);
+
+        //Exibe na tela o dado lido no buffer
+        printf("%d\n", dado);
+
+    }    
+}
