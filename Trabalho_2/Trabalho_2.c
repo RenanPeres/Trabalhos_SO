@@ -49,7 +49,6 @@ void produz_elemento(int dado);             //Escreve no buffer
 int consome_elemento();                     //Lê o buffer
 void *produtor();                            //Função produtor 
 void *consumidor();                          //Função consumidor
-void teste();
 
 int main(){
 
@@ -57,7 +56,6 @@ int main(){
     pthread_t t2; //Thread do processo consumidor
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
-    teste();
     printf("Foram lidos, no buffer:\n\n");
     if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
@@ -72,12 +70,6 @@ int main(){
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
     return 0;
-}
-
-void teste(){
-    struct fila *aux;
-    aux = inicio.entrada;
-    while(aux != NULL){printf("%d%d\n", aux->indice, BUFFER[aux->indice]); aux = aux->prox;}
 }
 
 //Cria e inicializa as listas de buffer livre e cheio
@@ -116,13 +108,13 @@ void troca_elementos(int n){
     if(n == 0){
         (final.saida == NULL) ? (inicio.saida = inicio.entrada) : (final.saida->prox = inicio.entrada);
         final.saida = inicio.entrada;
-        final.saida->prox = NULL;
         inicio.entrada = inicio.entrada->prox;
+        final.saida->prox = NULL;
     }else{
         (final.entrada == NULL) ? (inicio.entrada = inicio.saida) : (final.entrada->prox = inicio.saida);
         final.entrada = inicio.saida;
-        final.entrada->prox = NULL;
         inicio.saida = inicio.saida->prox;
+        final.entrada->prox = NULL;
     }
 
     return;
