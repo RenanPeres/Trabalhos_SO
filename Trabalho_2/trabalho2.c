@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <syscall.h>
 #include <fcntl.h>
+#include <errno.h>
 #include "trabalho2.h"
 
 
@@ -143,7 +144,7 @@ void *produtor(){
 
     //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
     fim = 1;
-    return;
+    exit(EXIT_SUCCESS);
 }
 
 //Função consumidor
@@ -157,7 +158,7 @@ void *consumidor(){
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
         if(espaco_livre == 20){
-            if(fim) return; //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
+            if(fim) exit(EXIT_SUCCESS); //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
             espera_consumidor = 0;

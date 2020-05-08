@@ -14,7 +14,7 @@ int main(){
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
     printf("Foram lidos, no buffer:\n\n");
-    p = pthread_create(&t1, NULL, &prdoutor, NULL);//Inicia e testa o processo produtor
+    p = pthread_create(&t1, NULL, &produtor, NULL);//Inicia e testa o processo produtor
     if(p){
         fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",p);
         exit(EXIT_FAILURE);
