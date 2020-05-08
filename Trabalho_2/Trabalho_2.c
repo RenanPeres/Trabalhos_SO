@@ -44,12 +44,13 @@ struct ref_fila{
 };
 
 //Funções do programa
-void cria_lista();                          //Cria e inicializa as listas de buffer livre e cheio
+void cria_lista();   /*                       //Cria e inicializa as listas de buffer livre e cheio
 void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
 void produz_elemento(int dado);             //Escreve no buffer
 int consome_elemento();                     //Lê o buffer
 void *produtor();                            //Função produtor 
 void *consumidor();                          //Função consumidor
+*/void *escreve();
 
 int main(){
 
@@ -58,11 +59,11 @@ int main(){
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
     printf("Foram lidos, no buffer:\n\n");
-    if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
+    if(pthread_create(&t1, NULL, escreve, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
     }printf("1");
-    if(pthread_create(&t2, NULL, consumidor, NULL)){  //Inicia e testa o processo consumidor
+    if(pthread_create(&t2, NULL, escreve, NULL)){  //Inicia e testa o processo consumidor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
     }printf("2");
@@ -106,12 +107,16 @@ void cria_lista(){
     return;
 }
 
+void *escreve(){
+    printf("foi\n");
+}
 
+/*
 //Transfere o primeiro elemento da fila 1 para o final da fila 2
 //fila **f1 - ponteiro da fila que tera seu elemento excluido da lista
 //fila **f2 - ponteiro da fila que tera um elemento adicionado à lista
 void troca_elementos(struct fila **f1, struct fila **f2){
-    
+ 
     //Elemento *fila auxiliar
     struct fila *aux;
 
@@ -239,4 +244,4 @@ void *consumidor(){
 
     }    
 }
-
+*/
