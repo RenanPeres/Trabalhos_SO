@@ -102,15 +102,6 @@ void cria_lista(){
     inicio.saida = NULL;
     final.saida = NULL;
 
-       struct fila *aux;
-       aux = inicio.entrada;
-for(int i = 0; i < 20; i++){
-    printf("%d",aux->indice);
-    aux = aux->prox;
-    }
-    free(aux);
-
-
     return;
 }
 
@@ -128,13 +119,13 @@ void troca_elementos(struct fila **f1, struct fila **f2){
             return;
         }
     }
-    (*f2)->prox = (*f1);
+    *f2->prox = *f1;
     printf("11\n");
-    (*f2) = (*f2)->prox;
+    *f2 = *f2->prox;
     printf("12\n");
-    (*f2)->prox = NULL;
+    *f2->prox = NULL;
     printf("13\n");
-    (*f1) = (*f1)->prox;
+    *f1 = *f1->prox;
    
     return;
 }
