@@ -155,21 +155,27 @@ void *produtor(){
    while(dado < 50){
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
+        printf("11\n");
         if(espaco_livre == 0){
             espera_produtor ++;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
             espera_produtor --;
         }pthread_mutex_unlock(&thread_control);
+        printf("12\n");
 
         //Escreve no buffer
         pthread_mutex_lock(&buffer_control);
+        printf("13\n");
         produz_elemento(dado);
         pthread_mutex_unlock(&buffer_control);
+        printf("14\n");
 
         //Verifica se o processo consumidor está em pausa e libera-o
         pthread_mutex_lock(&thread_control);
+        printf("15\n");
         if(espera_consumidor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
+        printf("16\n");
        
         //Altera aleatoriamente o valor do dado
         dado  += (rand() % 15);
@@ -190,22 +196,28 @@ void *consumidor(){
 
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
+        printf("21\n");
         if(espaco_livre == 20){
             if(fim) exit(EXIT_SUCCESS); //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
             espera_consumidor = 0;
         }pthread_mutex_unlock(&thread_control);
+        printf("22\n");
 
         //Lê o buffer
         pthread_mutex_lock(&buffer_control);
+        printf("23\n");
         dado = consome_elemento();
         pthread_mutex_unlock(&buffer_control);
+        printf("24\n");
 
         //Verifica se o processo produtor está em pausa e libera-o
         pthread_mutex_lock(&thread_control);
+        printf("25\n");
         if(espera_produtor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
+        printf("26\n");
 
         //Exibe na tela o dado lido no buffer
         printf("%d\n", dado);
