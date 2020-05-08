@@ -157,7 +157,7 @@ void *produz_elemento(int dado){
     //Diminui o contador de espaçoes livres do buffer
     espaco_livre--;
 
-    return;
+    //return;
 }
 
 //Lê o buffer
