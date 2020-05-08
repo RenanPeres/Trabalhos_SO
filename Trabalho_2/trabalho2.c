@@ -50,3 +50,56 @@ void troca_elementos(fila **f1, fila **f2){
     //Proucura o último elemento em **f2, caso a lista esteja vazia, cria o primeiro elemento
     aux = *f2;
     if(aux != NULL){
+        while(aux->prox != NULL){
+            aux = aux->prox;
+        }aux->prox = *f1;
+    }else{
+        aux = (fila*)malloc(sizeof(fila));
+        if(aux == NULL){
+            printf("Não foi possivel alocar memoria para a lista de buffer\n");
+            return(-1);
+        }*f2 = *f1;
+    }
+
+    //Elimina o primeiro elemento da fila **f1
+    *f1 = (*f1)->prox;
+
+    //Boas práticas de programação para liberar memória
+    aux = NULL;
+    free(aux);
+    return;
+}
+
+
+//Escreve no buffer
+//int dado - dado a ser escrito no buffer
+void produz_elemento(int dado){
+
+    //Escreve na primeira posição da lista de entrada
+    *((inicio.entrada)->mapa) = dado;
+
+    //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
+    troca_elementos(&inicio.entrada, &inicio.saida);
+
+    //Diminui o contador de espaçoes livres do buffer
+    espaco_livre--;
+
+    return;
+}
+
+
+//Lê o buffer
+//return - retorna o dado lido no buffer
+int consome_elemento(){
+
+    //Le na primeira posição da lista de saida
+    int dado = *((inicio.saida)->mapa);
+
+    //Elimina esse elemento da lista de saida e passa-o para a lista de entrada
+    troca_elementos(&inicio.saida, &inicio.entrada);
+
+    //Aumenta o contador de espaçoes livres do buffer
+    espaco_livre++;
+
+    return dado;
+}
