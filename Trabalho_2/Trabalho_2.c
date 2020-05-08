@@ -200,7 +200,9 @@ void *consumidor(){
         if(espaco_livre == 20){
             if(fim) exit(EXIT_SUCCESS); //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
+            printf("21\n")
             pthread_cond_wait(&libera, &thread_control);
+            printf("21\n")
             espera_consumidor = 0;
         }pthread_mutex_unlock(&thread_control);
         printf("22\n");
