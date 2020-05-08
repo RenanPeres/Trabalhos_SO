@@ -52,24 +52,23 @@ void *produtor(void *arg);                            //Função produtor
 void *consumidor(void *arg);                          //Função consumidor
 
 int main(){
-    pthread_t t1; //Thread do processo produtor
-    pthread_t t2; //Thread do processo consumidor
-    int p, c, r[2]; //Variável que carrega o status de sucesso ou erro de criação
-    printf("entrei\n");
-    cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
-    printf("Foram lidos, no buffer:\n\n");
-    if(pthread_create(&t1, NULL, produtor, (void *) NULL)){   //Inicia e testa o processo produtor
-        fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",p);
-        exit(EXIT_FAILURE);
-    }printf("1");
-    if(pthread_create(&t2, NULL, consumidor, (void *) NULL)){  //Inicia e testa o processo consumidor
-        fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",c);
-        exit(EXIT_FAILURE);
-    }printf("2");
 
-    //Espera a conclusão das threads
-    pthread_join(t1, NULL);
-    pthread_join(t2, NULL);
+    pid_t test;//Variavel de processos, tipo Pid
+
+    //Cria um processo filho (fork()) - Chamada de sistema
+    printf("1");
+	test = fork();
+	if(test < 0){//Testa se foi criado o processo com sucesso
+		printf("Deu error, não foi criado processo\n");
+		exit(EXIT_FAILURE);//Encerra com erro caso não tenha sido criado (exit()) - Chamada de Sistema
+	}else{
+        printf("2");
+		if(getpid()%2 == 0){//Pega o codigo do processo pid (getpid()) - Chamada de Sistema
+			produtor();
+		}else{
+			consumidor();
+		}
+	}
     return 0;
 }
 
