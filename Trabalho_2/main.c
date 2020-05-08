@@ -14,11 +14,11 @@ int main(){
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
     printf("Foram lidos, no buffer:\n\n");
-    if(pthread_create(&t1, NULL, &produtor, NULL);){   //Inicia e testa o processo produtor
+    if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",p);
         exit(EXIT_FAILURE);
     }
-    if(pthread_create(&t2, NULL, &consumidor, NULL);){  //Inicia e testa o processo consumidor
+    if(pthread_create(&t2, NULL, consumidor, NULL)){  //Inicia e testa o processo consumidor
         fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",c);
         exit(EXIT_FAILURE);
     }
