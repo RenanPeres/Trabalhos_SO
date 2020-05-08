@@ -1,4 +1,4 @@
-//Login:gso14
+//Login: gso14
 //Trabalho de Sistemas Operacionais - Produtor X Consumidor
 //Código main - Cria as threads dos processos produtores e consumidores e espera até que sejam concluidas
 
