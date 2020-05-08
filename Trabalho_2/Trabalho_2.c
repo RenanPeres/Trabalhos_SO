@@ -124,13 +124,15 @@ void troca_elementos(struct fila **f1, struct fila **f2){
     if(aux != NULL){
         while(aux->prox != NULL){
             aux = aux->prox;
-        }aux->prox = *f1;
+        }printf("saiu\n");
+        aux->prox = *f1;
     }else{
         aux = (struct fila*)malloc(sizeof(struct fila));
         if(aux == NULL){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
             return;
-        }*f2 = *f1;
+        }printf("saiu\n");
+        *f2 = *f1;
     }
 
     //Elimina o primeiro elemento da fila **f1
