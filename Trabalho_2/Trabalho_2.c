@@ -178,7 +178,7 @@ void *produtor(){
         //    espera_produtor ++;
         //    while(teste) teste = pthread_cond_wait(&libera, &thread_control);
          //   espera_produtor --;
-        }//pthread_mutex_unlock(&buffer_control);
+        //}pthread_mutex_unlock(&buffer_control);
 
         //Escreve no buffer
         //pthread_mutex_lock(&buffer_control);
