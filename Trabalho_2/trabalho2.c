@@ -118,7 +118,7 @@ void produz_elemento(int dado){
 
 //Lê o buffer
 //return - retorna o dado lido no buffer
-int consome_elemento(){
+int consome_elemento((void*)arg){
 
     //Le na primeira posição da lista de saida
     int dado = *((inicio.saida)->mapa);
@@ -133,7 +133,7 @@ int consome_elemento(){
 }
 
 //Função produtor 
-void *produtor(){
+void *produtor((void*)arg){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
     int teste = 1; //Variável de validação da condição de thread
