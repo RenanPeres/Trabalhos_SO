@@ -125,7 +125,7 @@ void troca_elementos(struct fila **f1, struct fila **f2){
         printf("12\n");
         (*f2)->prox = NULL;
         printf("13\n");
-        (*f1) = (*f1)->prox;
+        (*f1) = (**f1).prox;
     }
     return;
 }
