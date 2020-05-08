@@ -12,7 +12,7 @@ int main(){
     pthread_t t1; //Thread do processo produtor
     pthread_t t2; //Thread do processo consumidor
     int p, c, r[2]; //Variável que carrega o status de sucesso ou erro de criação
-    print("entrei\n");
+    printf("entrei\n");
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
     printf("Foram lidos, no buffer:\n\n");
     if(pthread_create(&t1, NULL, produtor, (void *) NULL)){   //Inicia e testa o processo produtor
