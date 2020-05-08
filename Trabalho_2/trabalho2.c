@@ -1,4 +1,4 @@
-//Login:gso14 att
+//Login:gso14
 //Trabalho de Sistemas Operacionais - Produtor X Consumidor
 //Descrição das funções utilizadas - cria as funções chamadas pelos processos
 
