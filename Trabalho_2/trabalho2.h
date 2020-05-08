@@ -27,8 +27,8 @@ void cria_lista();                          //Cria e inicializa as listas de buf
 void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
 void produz_elemento(int dado);             //Escreve no buffer
 int consome_elemento();                     //Lê o buffer
-void *produtor((void*)arg);                            //Função produtor 
-void *consumidor((void*)arg);                          //Função consumidor
+void *produtor(void *arg);                            //Função produtor 
+void *consumidor(void *arg);                          //Função consumidor
 
 
 #endif

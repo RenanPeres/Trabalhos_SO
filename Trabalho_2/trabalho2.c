@@ -133,7 +133,7 @@ int consome_elemento((void*)arg){
 }
 
 //Função produtor 
-void *produtor((void*)arg){
+void *produtor(void *arg){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
     int teste = 1; //Variável de validação da condição de thread
@@ -168,7 +168,7 @@ void *produtor((void*)arg){
 }
 
 //Função consumidor
-void *consumidor(){
+void *consumidor(void *arg){
 
     int dado;       //Variável dos dados a ser lida no buffer
     int teste = 1;  //Variável de validação da condição de thread
