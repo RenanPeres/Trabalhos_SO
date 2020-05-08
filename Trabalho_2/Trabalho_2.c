@@ -56,7 +56,7 @@ int main(){
     pthread_t t2; //Thread do processo consumidor
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
-    printf("Leitura dos dados do Buffer:\n\n");
+    printf("\nLeitura dos dados do Buffer:\n\n");
     if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
@@ -67,9 +67,9 @@ int main(){
     }
     //Espera a conclusão das threads
     pthread_join(t1, NULL);
-    printf("Termino do processo produtor!\n");
+    printf("\nTermino do processo produtor!\n");
     pthread_join(t2, NULL);
-    printf("Termino do processo consumidor!\n");
+    printf("\nTermino do processo consumidor!\n");
     return 0;
 }
 
@@ -169,7 +169,6 @@ void *produtor(){
 
         //Verifica se o processo consumidor está em pausa e libera-o
         pthread_mutex_lock(&thread_control);
-        printf("15\n");
         if(espera_consumidor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
        
