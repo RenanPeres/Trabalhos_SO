@@ -102,6 +102,15 @@ void cria_lista(){
     inicio.saida = NULL;
     final.saida = NULL;
 
+       struct fila *aux;
+       aux = inicio.entrada;
+for(int i = 0; i < 20; i++){
+    printf("%d",aux->indice);
+    aux = aux->
+    }
+    free(aux);
+
+
     return;
 }
 
