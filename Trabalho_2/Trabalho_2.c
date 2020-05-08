@@ -65,10 +65,11 @@ int main(){
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
     }
-
     //Espera a conclusão das threads
     pthread_join(t1, NULL);
+    printf("chegou aqui\n");
     pthread_join(t2, NULL);
+    printf("chegou aqui tbm\n");
     return 0;
 }
 
