@@ -47,7 +47,7 @@ struct ref_fila{
 void cria_lista();                         //Cria e inicializa as listas de buffer livre e cheio
 void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
 //void produz_elemento(int dado);             //Escreve no buffer
-int consome_elemento();                     //Lê o buffer
+void *consome_elemento();                     //Lê o buffer
 //void *produtor();                            //Função produtor 
 //void *consumidor();                          //Função consumidor
 void *escreve();
@@ -164,7 +164,7 @@ void produz_elemento(int dado){
 
 //Lê o buffer
 //return - retorna o dado lido no buffer
-int *consome_elemento(){
+void *consome_elemento(){
 
     //Le na primeira posição da lista de saida
     int dado = *((inicio.entrada)->mapa);
@@ -174,8 +174,8 @@ int *consome_elemento(){
 
     //Aumenta o contador de espaçoes livres do buffer
     espaco_livre++;
-
-    return dado;
+    printf("%d\n", dado);
+    //return dado;
 }
 /*
 //Função produtor 
