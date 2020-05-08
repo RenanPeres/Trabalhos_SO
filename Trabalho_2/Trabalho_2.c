@@ -146,7 +146,7 @@ void troca_elementos(struct fila **f1, struct fila **f2){
 
 //Escreve no buffer
 //int dado - dado a ser escrito no buffer
-void produz_elemento(int dado){
+void *produz_elemento(int dado){
 
     //Escreve na primeira posição da lista de entrada
     *((inicio.entrada)->mapa) = 2;
