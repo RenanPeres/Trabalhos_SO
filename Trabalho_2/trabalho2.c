@@ -1,4 +1,4 @@
-//Login:gso14
+//Login:gso14 att
 //Trabalho de Sistemas Operacionais - Produtor X Consumidor
 //Descrição das funções utilizadas - cria as funções chamadas pelos processos
 
@@ -10,6 +10,10 @@
 #include <syscall.h>
 #include <fcntl.h>
 #include "trabalho2.h"
+<<<<<<< HEAD
+=======
+
+>>>>>>> c21d381afeca58dd6f8e1e09d83150c7113bfd79
 
 //Cria e inicializa as listas de buffer livre e cheio
 void cria_lista(){
@@ -64,7 +68,7 @@ void troca_elementos(struct fila **f1, struct fila **f2){
         aux = (struct fila*)malloc(sizeof(struct fila));
         if(aux == NULL){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
-            return(-1);
+            return;
         }*f2 = *f1;
     }
 
