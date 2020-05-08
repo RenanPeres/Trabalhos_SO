@@ -183,7 +183,7 @@ void *produtor(){
     int teste = 1; //Variável de validação da condição de thread
   
    while(dado < 50){
- printf("3\n");
+ printf("%d\n",dado);
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
         if(espaco_livre == 0){
