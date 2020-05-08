@@ -122,11 +122,14 @@ void troca_elementos(struct fila **f1, struct fila **f2){
     //Proucura o último elemento em **f2, caso a lista esteja vazia, cria o primeiro elemento
     aux = *f2;
     if(aux != NULL){
+        printf("entrou\n");
         while(aux->prox != NULL){
+            printf("entrou\n");
             aux = aux->prox;
         }printf("saiu\n");
         aux->prox = *f1;
     }else{
+        printf("entrougggg\n");
         aux = (struct fila*)malloc(sizeof(struct fila));
         if(aux == NULL){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
