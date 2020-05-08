@@ -48,28 +48,29 @@ void cria_lista();                          //Cria e inicializa as listas de buf
 void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
 void produz_elemento(int dado);             //Escreve no buffer
 int consome_elemento();                     //Lê o buffer
-void produtor();                            //Função produtor 
-void consumidor();                          //Função consumidor
+void *produtor();                            //Função produtor 
+void *consumidor();                          //Função consumidor
 
 int main(){
 
-    pid_t test;//Variavel de processos, tipo Pid
+    pthread_t t1; //Thread do processo produtor
+    pthread_t t2; //Thread do processo consumidor
+    int p, c, r[2]; //Variável que carrega o status de sucesso ou erro de criação
+    printf("entrei\n");
+    cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
+    printf("Foram lidos, no buffer:\n\n");
+    if(pthread_create(&t1, NULL, produtor, (void *) NULL)){   //Inicia e testa o processo produtor
+        fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",p);
+        exit(EXIT_FAILURE);
+    }printf("1");
+    if(pthread_create(&t2, NULL, consumidor, (void *) NULL)){  //Inicia e testa o processo consumidor
+        fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",c);
+        exit(EXIT_FAILURE);
+    }printf("2");
 
-    //Cria um processo filho (fork()) - Chamada de sistema
-    printf("1");
-	test = fork();
-	if(test < 0){//Testa se foi criado o processo com sucesso
-		printf("Deu error, não foi criado processo\n");
-		exit(EXIT_FAILURE);//Encerra com erro caso não tenha sido criado (exit()) - Chamada de Sistema
-	}else{
-		if(getpid()%2 == 0){//Pega o codigo do processo pid (getpid()) - Chamada de Sistema
-			//produtor();
-            printf("2");
-		}else{
-			//consumidor();
-            printf("2");
-		}
-	}
+    //Espera a conclusão das threads
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
     return 0;
 }
 
@@ -173,7 +174,7 @@ int consome_elemento(){
 }
 
 //Função produtor 
-void produtor(){
+void *produtor(){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
     int teste = 1; //Variável de validação da condição de thread
@@ -208,7 +209,7 @@ void produtor(){
 }
 
 //Função consumidor
-void consumidor(){
+void *consumidor(){
 
     int dado;       //Variável dos dados a ser lida no buffer
     int teste = 1;  //Variável de validação da condição de thread
