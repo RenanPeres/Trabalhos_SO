@@ -38,8 +38,6 @@ struct ref_fila{
 
 //declara e inicia a struct ref_fila para uso nas funções
 struct ref_fila inicio;
-inicio.entrada = NULL;
-inicio.saida = NULL;
 
 //Funções do programa
 void cria_lista();                          //Cria e inicializa as listas de buffer livre e cheio

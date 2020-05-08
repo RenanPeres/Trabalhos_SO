@@ -36,6 +36,8 @@ void cria_lista(){
         aux->mapa = &BUFFER[i];
         aux->prox = NULL;
     }
+    //Inicia o primeiro elemento da lista de saida
+    inicio.saida = NULL;
     
     //Boas práticas de programação para liberar memória
     aux = NULL;
