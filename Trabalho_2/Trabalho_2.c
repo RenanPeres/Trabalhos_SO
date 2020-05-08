@@ -118,7 +118,7 @@ void troca_elementos(struct fila **f1, struct fila **f2){
  
     //Elemento *fila auxiliar
     struct fila *aux;
-
+    printf("entrou\n");
     //Proucura o último elemento em **f2, caso a lista esteja vazia, cria o primeiro elemento
     aux = *f2;
     if(aux != NULL){
@@ -149,6 +149,7 @@ void produz_elemento(int dado){
 
     //Escreve na primeira posição da lista de entrada
     *((inicio.entrada)->mapa) = dado;
+    printf("entrou\n");
 
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(&inicio.entrada, &inicio.saida);
