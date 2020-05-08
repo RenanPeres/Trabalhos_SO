@@ -14,20 +14,17 @@ int main(){
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
     printf("Foram lidos, no buffer:\n\n");
-    if(pthread_create(&t1, NULL, (void *) produtor, NULL)){   //Inicia e testa o processo produtor
+    if(pthread_create(&t1, NULL, produtor, (void *) NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",p);
         exit(EXIT_FAILURE);
     }
-    if(pthread_create(&t2, NULL, (void *) consumidor, NULL)){  //Inicia e testa o processo consumidor
+    if(pthread_create(&t2, NULL, consumidor, (void *) NULL)){  //Inicia e testa o processo consumidor
         fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",c);
         exit(EXIT_FAILURE);
     }
 
     //Espera a conclusão das threads
-    r[0] = pthread_join(t1, NULL);
-    r[1] = pthread_join(t2, NULL);
-
-    //Verifica se as threads encerraram corretamente
-    if(r[0] == 0 && r[1] == 0) exit(EXIT_SUCCESS);
-    else exit(EXIT_FAILURE);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    return 0;
 }
