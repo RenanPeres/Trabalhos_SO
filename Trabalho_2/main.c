@@ -5,8 +5,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <unistd.h>
 #include <errno.h>
+#include <syscall.h>
 #include "trabalho2.h"
+
+
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <math.h>
+#include <syscall.h>
+#include <fcntl.h>
 
 int main(){
     pthread_t t1; //Thread do processo produtor
