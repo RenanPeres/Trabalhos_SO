@@ -62,11 +62,11 @@ int main(){
     if(pthread_create(&t1, NULL, escreve, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
-    }printf("1");
+    }
     if(pthread_create(&t2, NULL, escreve, NULL)){  //Inicia e testa o processo consumidor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
-    }printf("2");
+    }
 
     //Espera a conclusão das threads
     pthread_join(t1, NULL);
@@ -95,8 +95,10 @@ void cria_lista(){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
             return;
         }aux = aux->prox;
+        BUFFER[i] = 1;
         aux->mapa = &BUFFER[i];
         aux->prox = NULL;
+        printf("%d\n", *(aux->mapa));
     }
     //Inicia o primeiro elemento da lista de saida
     inicio.saida = NULL;
