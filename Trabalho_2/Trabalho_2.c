@@ -95,6 +95,7 @@ void cria_lista(){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
             return;
         }aux = aux->prox;
+        BUFFER[i] = 1;
         aux->mapa = &BUFFER[i];
         aux->prox = NULL;
     }
@@ -166,10 +167,10 @@ void produz_elemento(int dado){
 int *consome_elemento(){
 
     //Le na primeira posição da lista de saida
-    int dado = *((inicio.saida)->mapa);
+    int dado = *((inicio.entrada)->mapa);
 
     //Elimina esse elemento da lista de saida e passa-o para a lista de entrada
-    troca_elementos(&inicio.saida, &inicio.entrada);
+    troca_elementos(&inicio.entrada, &inicio.saida);
 
     //Aumenta o contador de espaçoes livres do buffer
     espaco_livre++;
