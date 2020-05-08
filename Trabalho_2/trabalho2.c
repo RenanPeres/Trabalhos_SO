@@ -31,7 +31,10 @@ void cria_lista(){
         aux->prox = NULL;
     }
     
+    //Lista de saida de dados não possui elemento, então é sinalizado
     inicio.saida = NULL;
+    
+    //Boas práticas de programação para liberar memória
     aux = NULL;
     free(aux);
     return;
