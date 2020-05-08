@@ -57,7 +57,7 @@ int main(){
     pthread_t t2; //Thread do processo consumidor
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
-    void teste();
+    teste();
     printf("Foram lidos, no buffer:\n\n");
     if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
@@ -77,7 +77,7 @@ int main(){
 void teste(){
     struct fila *aux;
     aux = inicio.entrada;
-    while(aux != NULL)printf("%d%d", aux->indice, BUFFER[aux->indice]);
+    while(aux != NULL)printf("%d%d\n", aux->indice, BUFFER[aux->indice]);
 }
 
 //Cria e inicializa as listas de buffer livre e cheio
