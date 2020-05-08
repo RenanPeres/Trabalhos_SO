@@ -182,7 +182,7 @@ void *produtor(){
     int dado = 1;  //Variável dos dados a ser escrita no buffer
     int teste = 1; //Variável de validação da condição de thread
   
-   while(dado < 5){
+   while(dado < 50){
  printf("3\n");
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
     /*    pthread_mutex_lock(&thread_control);
