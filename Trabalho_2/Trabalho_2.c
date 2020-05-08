@@ -11,6 +11,7 @@
 #include <time.h>
 
 //Buffer limitado global (disponível a todos os processos)
+#define TAM_BUFFER 20;
 int BUFFER[20];
 int espaco_livre = 20;
 
