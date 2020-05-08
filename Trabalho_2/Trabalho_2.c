@@ -44,7 +44,7 @@ struct ref_fila inicio, final;
 
 //Funções do programa
 void cria_lista();                         //Cria e inicializa as listas de buffer livre e cheio
-void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
+void troca_elementos(int n); //Transfere o primeiro elemento da fila 1 para o final da fila 2
 void produz_elemento(int dado);             //Escreve no buffer
 int consome_elemento();                     //Lê o buffer
 void *produtor();                            //Função produtor 
@@ -107,26 +107,19 @@ void cria_lista(){
 
 
 //Transfere o primeiro elemento da fila 1 para o final da fila 2
-//fila **f1 - ponteiro da fila que tera seu elemento excluido do começo
-//fila **f2 - ponteiro da fila que tera um elemento adicionado ao final
-void troca_elementos(struct fila **f1, struct fila **f2){
+//int n - determina qual o metodo a ser realizado
+void troca_elementos(int n){
  
-    printf("entrou\n");
-    if(*f2 == NULL){
-         (*f2) = (*f1);
-        printf("11\n");
-        (*f2)->prox = NULL;
-        printf("13\n");
-        (*f1) = (*f1)->prox;
+    if(n == 0){
+        if(fim.saida != NULL) fim.saida->prox = inicio.entrada;
+        fim.saida = inicio.entrada;
+        inicio.entrada = inicio.entrada->prox;
     }else{
-        (*f2)->prox = (*f1);
-        printf("11\n");
-        (*f2) = (*f2)->prox;
-        printf("12\n");
-        (*f2)->prox = NULL;
-        printf("13\n");
-        (*f1) = (**f1).prox;
+        if(fim.entrada != NULL) fim.entrada->prox = inicio.saida;
+        fim.entrada = inicio.saida;
+        inicio.saida = inicio.saida->prox;
     }
+
     return;
 }
 
@@ -139,7 +132,7 @@ void produz_elemento(int dado){
     BUFFER[(inicio.entrada)->indice] = dado;
  printf("entrou\n");
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
-    troca_elementos(&inicio.entrada, &final.saida);
+    troca_elementos(0);
 printf("saiu\n");
     //Diminui o contador de espaçoes livres do buffer
     espaco_livre--;
@@ -155,7 +148,7 @@ int consome_elemento(){
     int dado = BUFFER[(inicio.saida)->indice];
 
     //Elimina esse elemento da lista de saida e passa-o para a lista de entrada
-    troca_elementos(&inicio.saida, &final.entrada);
+    troca_elementos(1);
 
     //Aumenta o contador de espaçoes livres do buffer
     espaco_livre++;
