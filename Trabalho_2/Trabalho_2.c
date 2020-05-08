@@ -135,9 +135,9 @@ void troca_elementos(struct fila **f1, struct fila **f2){
 //int dado - dado a ser escrito no buffer
 void produz_elemento(int dado){
 
+ printf("entrou\n");
     //Escreve na primeira posição da lista de entrada
     *((inicio.entrada)->mapa) = dado;
-    printf("entrou\n");
 
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(&inicio.entrada, &final.saida);
@@ -174,10 +174,10 @@ void *produtor(){
  printf("%d\n",dado);
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
         //pthread_mutex_lock(&thread_control);
-        if(espaco_livre == 0){
-            espera_produtor ++;
+        //if(espaco_livre == 0){
+        //    espera_produtor ++;
         //    while(teste) teste = pthread_cond_wait(&libera, &thread_control);
-            espera_produtor --;
+         //   espera_produtor --;
         }//pthread_mutex_unlock(&buffer_control);
 
         //Escreve no buffer
