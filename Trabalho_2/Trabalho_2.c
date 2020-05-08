@@ -135,10 +135,9 @@ void troca_elementos(struct fila **f1, struct fila **f2){
 //int dado - dado a ser escrito no buffer
 void produz_elemento(int dado){
 
- printf("entrou\n");
     //Escreve na primeira posição da lista de entrada
     BUFFER[(inicio.entrada)->indice] = dado;
-
+ printf("entrou\n");
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(&inicio.entrada, &final.saida);
 printf("saiu\n");
