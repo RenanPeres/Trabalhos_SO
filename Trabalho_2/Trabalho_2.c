@@ -48,8 +48,8 @@ void troca_elementos(int n); //Transfere o primeiro elemento da fila 1 para o fi
 void produz_elemento(int dado);             //Escreve no buffer
 int consome_elemento();                     //Lê o buffer
 void *produtor();                            //Função produtor 
-//void *consumidor();                          //Função consumidor
-void *escreve();
+void *consumidor();                          //Função consumidor
+
 
 int main(){
 
@@ -62,7 +62,7 @@ int main(){
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
     }sleep(3);
-    if(pthread_create(&t2, NULL, escreve, NULL)){  //Inicia e testa o processo consumidor
+    if(pthread_create(&t2, NULL, consumidor, NULL)){  //Inicia e testa o processo consumidor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
     }
@@ -71,10 +71,6 @@ int main(){
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
     return 0;
-}
-
-void *escreve(){
-    printf("escreveu: %d%d",(inicio.entrada)->indice, (inicio.saida)->indice);
 }
 
 //Cria e inicializa as listas de buffer livre e cheio
@@ -186,7 +182,7 @@ void *produtor(){
     fim = 1;
     exit(EXIT_SUCCESS);
 }
-/*
+
 //Função consumidor
 void *consumidor(){
 
@@ -202,7 +198,7 @@ void *consumidor(){
             espera_consumidor = 1;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
             espera_consumidor = 0;
-        }pthread_mutex_unlock(&buffer_control);
+        }pthread_mutex_unlock(&thread_control);
 
         //Lê o buffer
         pthread_mutex_lock(&buffer_control);
