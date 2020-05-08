@@ -130,14 +130,13 @@ void produz_elemento(int dado){
 
     //Escreve na primeira posição da lista de entrada
     BUFFER[(inicio.entrada)->indice] = dado;
- printf("entrou\n");
+
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(0);
-printf("saiu\n");
+
     //Diminui o contador de espaçoes livres do buffer
     espaco_livre--;
-
-    //return;
+    return;
 }
 
 //Lê o buffer
@@ -165,12 +164,13 @@ void *produtor(){
    while(dado < 50){
  printf("%d\n",dado);
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
-        //pthread_mutex_lock(&thread_control);
+        pthread_mutex_lock(&thread_control);
         //if(espaco_livre == 0){
         //    espera_produtor ++;
         //    while(teste) teste = pthread_cond_wait(&libera, &thread_control);
          //   espera_produtor --;
-        //}pthread_mutex_unlock(&buffer_control);
+        //}
+        pthread_mutex_unlock(&buffer_control);
 
         //Escreve no buffer
         //pthread_mutex_lock(&buffer_control);
