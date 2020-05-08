@@ -24,10 +24,10 @@ pthread_mutex_t thread_control = PTHREAD_MUTEX_INITIALIZER; //Controla a execuç
 pthread_cond_t libera = PTHREAD_COND_INITIALIZER;           //Controla quando uma thread deve acordar
 
 //Elemento da fila de memoria disponível
-//int *mapa - armazena o endereço no buffer
+//int indice - armazena o indice do buffer
 //struct fila *prox - endereço do próximo elemento da fila
 struct fila{
-    int *mapa;
+    int indice;
     struct fila *prox;
 };
 
@@ -74,7 +74,7 @@ int main(){
 }
 
 void *escreve(){
-    printf("escreveu: %d%d",*((inicio.entrada)->mapa), *((inicio.saida)->mapa));
+    printf("escreveu: %d%d",(inicio.entrada)->indice, (inicio.saida)->indice);
 }
 
 //Cria e inicializa as listas de buffer livre e cheio
@@ -86,7 +86,7 @@ void cria_lista(){
         printf("Não foi possivel alocar memoria para a lista de buffer\n");
         return;
     }
-    inicio.entrada->mapa = &BUFFER[0];
+    inicio.entrada->indice = 0;
     inicio.entrada->prox = NULL;
     final.entrada = inicio.entrada;
     for(int i = 1; i < 20; i++){
@@ -95,7 +95,7 @@ void cria_lista(){
             printf("Não foi possivel alocar memoria para a lista de buffer\n");
             return;
         }final.entrada = final.entrada->prox;
-        final.entrada->mapa = &BUFFER[i];
+        final.entrada->indice = i;
         final.entrada->prox = NULL;
     }
     //Inicia o primeiro elemento da lista de saida
@@ -137,7 +137,7 @@ void produz_elemento(int dado){
 
  printf("entrou\n");
     //Escreve na primeira posição da lista de entrada
-    *((inicio.entrada)->mapa) = dado;
+    BUFFER[(inicio.entrada)->indice] = dado;
 
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(&inicio.entrada, &final.saida);
@@ -153,7 +153,7 @@ printf("saiu\n");
 int consome_elemento(){
 
     //Le na primeira posição da lista de saida
-    int dado = *((inicio.saida)->mapa);
+    int dado = BUFFER[(inicio.saida)->indice];
 
     //Elimina esse elemento da lista de saida e passa-o para a lista de entrada
     troca_elementos(&inicio.saida, &final.entrada);
