@@ -1,8 +1,13 @@
-//Login:gso14
+//Login: gso14
 //Trabalho de Sistemas Operacionais - Produtor X Consumidor
-//Descrição das funções utilizadas - cria as funções chamadas pelos processos
+//Código main - Cria as threads dos processos produtores e consumidores e espera até que sejam concluidas
 
-#include "trabalho2.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <errno.h>
+#include <syscall.h>
 
 //Buffer limitado global (disponível a todos os processos)
 int BUFFER[20];
@@ -22,9 +27,51 @@ pthread_cond_t libera = PTHREAD_COND_INITIALIZER;           //Controla quando um
 //declara e inicia a struct ref_fila para uso nas funções
 struct ref_fila inicio;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Elemento da fila de memoria disponível
+//int *mapa - armazena o endereço no buffer
+//struct fila *prox - endereço do próximo elemento da fila
+struct fila{
+    int *mapa;
+    struct fila *prox;
+};
 
+//Struct de ponteiro que armazena os endereços inicial de cada fila
+//struct fila *entrada - armazena o endereço do primeiro elemento da fila de buffer preenchidos
+//struct fila *fim - armazena o endereço do primeiro elemento da fila de buffer vazio
+struct ref_fila{
+    struct fila *entrada;
+    struct fila *saida;
+};
+
+//Funções do programa
+void cria_lista();                          //Cria e inicializa as listas de buffer livre e cheio
+void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
+void produz_elemento(int dado);             //Escreve no buffer
+int consome_elemento();                     //Lê o buffer
+void *produtor(void *arg);                            //Função produtor 
+void *consumidor(void *arg);                          //Função consumidor
+
+int main(){
+    pthread_t t1; //Thread do processo produtor
+    pthread_t t2; //Thread do processo consumidor
+    int p, c, r[2]; //Variável que carrega o status de sucesso ou erro de criação
+    printf("entrei\n");
+    cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
+    printf("Foram lidos, no buffer:\n\n");
+    if(pthread_create(&t1, NULL, produtor, (void *) NULL)){   //Inicia e testa o processo produtor
+        fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",p);
+        exit(EXIT_FAILURE);
+    }
+    if(pthread_create(&t2, NULL, consumidor, (void *) NULL)){  //Inicia e testa o processo consumidor
+        fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",c);
+        exit(EXIT_FAILURE);
+    }
+
+    //Espera a conclusão das threads
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    return 0;
+}
 
 //Cria e inicializa as listas de buffer livre e cheio
 void cria_lista(){
@@ -192,3 +239,4 @@ void *consumidor(void *arg){
 
     }    
 }
+
