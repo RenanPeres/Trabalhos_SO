@@ -46,9 +46,9 @@ struct ref_fila{
 //Funções do programa
 void cria_lista();                         //Cria e inicializa as listas de buffer livre e cheio
 void troca_elementos(struct fila **f1, struct fila **f2); //Transfere o primeiro elemento da fila 1 para o final da fila 2
-void *produz_elemento();             //Escreve no buffer
-void *consome_elemento();                     //Lê o buffer
-//void *produtor();                            //Função produtor 
+void produz_elemento(int dado);             //Escreve no buffer
+int consome_elemento();                     //Lê o buffer
+void *produtor();                            //Função produtor 
 //void *consumidor();                          //Função consumidor
 void *escreve();
 
@@ -59,19 +59,23 @@ int main(){
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
     printf("Foram lidos, no buffer:\n\n");
-    if(pthread_create(&t1, NULL, produz_elemento, NULL)){   //Inicia e testa o processo produtor
+    if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
     }sleep(3);
-    if(pthread_create(&t2, NULL, consome_elemento, NULL)){  //Inicia e testa o processo consumidor
+    if(pthread_create(&t2, NULL, escreve, NULL)){  //Inicia e testa o processo consumidor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
     }
-    printf("%d%d", *((inicio.entrada)->mapa), BUFFER[0]);
+
     //Espera a conclusão das threads
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
     return 0;
+}
+
+void *escreve(){
+    printf("%d%d",*((inicio.entrada)->mapa), *((inicio.saida)->mapa));
 }
 
 //Cria e inicializa as listas de buffer livre e cheio
@@ -105,10 +109,6 @@ void cria_lista(){
     aux = NULL;
     free(aux);
     return;
-}
-
-void *escreve(){
-    printf("foi\n");
 }
 
 
@@ -146,10 +146,10 @@ void troca_elementos(struct fila **f1, struct fila **f2){
 
 //Escreve no buffer
 //int dado - dado a ser escrito no buffer
-void *produz_elemento(){//int dado
+void produz_elemento(int dado){
 
     //Escreve na primeira posição da lista de entrada
-    *((inicio.entrada)->mapa) = 2;
+    *((inicio.entrada)->mapa) = dado;
 
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(&inicio.entrada, &inicio.saida);
@@ -162,27 +162,27 @@ void *produz_elemento(){//int dado
 
 //Lê o buffer
 //return - retorna o dado lido no buffer
-void *consome_elemento(){
+int consome_elemento(){
 
     //Le na primeira posição da lista de saida
-    int dado = *((inicio.entrada)->mapa);
+    int dado = *((inicio.saida)->mapa);
 
     //Elimina esse elemento da lista de saida e passa-o para a lista de entrada
-    troca_elementos(&inicio.entrada, &inicio.saida);
+    troca_elementos(&inicio.saida, &inicio.entrada);
 
     //Aumenta o contador de espaçoes livres do buffer
     espaco_livre++;
-    printf("%d\n", dado);
-    //return dado;
+
+    return dado;
 }
-/*
+
 //Função produtor 
 void *produtor(){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
     int teste = 1; //Variável de validação da condição de thread
    printf("3");
-    while(dado < 50){
+    while(dado < 5){
 
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
         pthread_mutex_lock(&thread_control);
@@ -210,7 +210,7 @@ void *produtor(){
     fim = 1;
     exit(EXIT_SUCCESS);
 }
-
+/*
 //Função consumidor
 void *consumidor(){
 
