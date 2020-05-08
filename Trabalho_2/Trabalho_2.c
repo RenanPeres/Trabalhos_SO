@@ -62,11 +62,12 @@ int main(){
 		printf("Deu error, não foi criado processo\n");
 		exit(EXIT_FAILURE);//Encerra com erro caso não tenha sido criado (exit()) - Chamada de Sistema
 	}else{
-        printf("2");
 		if(getpid()%2 == 0){//Pega o codigo do processo pid (getpid()) - Chamada de Sistema
-			produtor();
+			//produtor();
+            printf("2");
 		}else{
-			consumidor();
+			//consumidor();
+            printf("2");
 		}
 	}
     return 0;
