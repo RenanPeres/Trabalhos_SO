@@ -21,7 +21,6 @@ int fim = 0;
 //Semáforos de controle das threads
 pthread_mutex_t buffer_control = PTHREAD_MUTEX_INITIALIZER; //Controla o uso do buffer
 pthread_mutex_t thread_control = PTHREAD_MUTEX_INITIALIZER; //Controla a execução de uma thread 
-                                                            //(impede que duas threads durmam simultaneamente)
 pthread_cond_t libera = PTHREAD_COND_INITIALIZER;           //Controla quando uma thread deve acordar
 
 //declara e inicia a struct ref_fila para uso nas funções
@@ -193,9 +192,9 @@ void *produtor(){
         }//pthread_mutex_unlock(&buffer_control);
 
         //Escreve no buffer
-        pthread_mutex_lock(&buffer_control);
+        //pthread_mutex_lock(&buffer_control);
         produz_elemento(dado);
-        pthread_mutex_unlock(&buffer_control);
+        //pthread_mutex_unlock(&buffer_control);
 
         //Verifica se o processo consumidor está em pausa e libera-o
     //    pthread_mutex_lock(&thread_control);
