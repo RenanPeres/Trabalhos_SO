@@ -15,11 +15,11 @@
 void cria_lista(){
 
     //Elemento *fila auxiliar
-    fila *aux;
+    struct fila *aux;
     aux = (struct fila*)malloc(sizeof(struct fila));
     if(aux == NULL){
         printf("Não foi possivel alocar memoria para a lista de buffer\n");
-        return(-1);
+        return;
     }
     aux->mapa = &BUFFER[0];
     aux->prox = NULL;
@@ -49,7 +49,7 @@ void cria_lista(){
 //Transfere o primeiro elemento da fila 1 para o final da fila 2
 //fila **f1 - ponteiro da fila que tera seu elemento excluido da lista
 //fila **f2 - ponteiro da fila que tera um elemento adicionado à lista
-void troca_elementos(fila **f1, fila **f2){
+void troca_elementos(struct fila **f1, struct fila **f2){
     
     //Elemento *fila auxiliar
     struct fila *aux;
