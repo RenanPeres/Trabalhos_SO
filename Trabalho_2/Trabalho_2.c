@@ -152,7 +152,7 @@ printf("entrou\n");
 void *produtor(){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
-    int teste = 1; //Variável de validação da condição de thread
+    int teste; //Variável de validação da condição de thread
   
    while(dado < 50){
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
@@ -161,6 +161,7 @@ void *produtor(){
         printf("11\n");
         if(espaco_livre == 0){
             espera_produtor ++;
+            teste = 1;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
             espera_produtor --;
         }pthread_mutex_unlock(&thread_control);
@@ -193,7 +194,7 @@ void *produtor(){
 void *consumidor(){
 
     int dado;       //Variável dos dados a ser lida no buffer
-    int teste = 1;  //Variável de validação da condição de thread
+    int teste;  //Variável de validação da condição de thread
 
     while(1){
 
@@ -204,6 +205,7 @@ void *consumidor(){
             if(fim) exit(EXIT_SUCCESS); //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
             printf("21\n");
+            teste = 1;
             while(teste) teste = pthread_cond_wait(&libera, &thread_control);
             printf("21\n");
             espera_consumidor = 0;
