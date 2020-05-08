@@ -150,6 +150,7 @@ void *produz_elemento(){//int dado
 
     //Escreve na primeira posição da lista de entrada
     *((inicio.entrada)->mapa) = 2;
+    printf("%d%d", *((inicio.entrada)->mapa), BUFFER[0]);
 
     //Elimina esse elemento da lista de entrada e passa-o para a lista de saida
     troca_elementos(&inicio.entrada, &inicio.saida);
