@@ -9,7 +9,7 @@
 #include "trabalho2.h"
 
 int main(){
-    pthread t1, t2; //Thread do processo produtor e consumidor
+    pthread_t t1, t2; //Thread do processo produtor e consumidor
     int p, c, r[2]; //Variável que carrega o status de sucesso ou erro de criação
 
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
