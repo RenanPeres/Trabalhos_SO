@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <errno.h>
+#include "trabalho2.h"
 
 int main(){
     pthread t1, t2; //Thread do processo produtor e consumidor
