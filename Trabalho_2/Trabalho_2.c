@@ -107,7 +107,7 @@ void cria_lista(){
 void troca_elementos(int n){
  
     if(n == 0){
-        (final.saida == NULL) ? inicio.saida = inicio.entrada : final.saida->prox = inicio.entrada;
+        (final.saida == NULL) ? (inicio.saida = inicio.entrada) : (final.saida->prox = inicio.entrada);
         final.saida = inicio.entrada;
         final.saida->prox = NULL;
         inicio.entrada = inicio.entrada->prox;
