@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <syscall.h>
 #include <fcntl.h>
-
+#include "trabalho2.h"
 
 //Cria e inicializa as listas de buffer livre e cheio
 void cria_lista(){
@@ -163,7 +163,7 @@ void consumidor(){
         }pthread_mutex_unlock(&buffer_control);
 
         //Lê o buffer
-        pthread_mutex_lock(buffer_control);
+        pthread_mutex_lock(&buffer_control);
         dado = consome_elemento();
         pthread_mutex_unlock(&buffer_control);
 
