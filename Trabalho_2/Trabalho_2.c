@@ -112,8 +112,9 @@ void troca_elementos(int n){
         final.saida->prox = NULL;
         inicio.entrada = inicio.entrada->prox;
     }else{
-        if(final.entrada != NULL) final.entrada->prox = inicio.saida;
+        (final.entrada == NULL) ? (inicio.entrada = inicio.saida) : (final.entrada->prox = inicio.saida);
         final.entrada = inicio.saida;
+        final.entrada->prox = NULL;
         inicio.saida = inicio.saida->prox;
     }
 
