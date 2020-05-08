@@ -190,7 +190,7 @@ void *produtor(){
 
     //Uma vez que todos os dados do produtor sejam escritos no buffer, um sinal fim é determinado para controle do consumidor
     fim = 1;
-    exit(EXIT_SUCCESS);
+    return;
 }
 
 //Função consumidor
@@ -204,7 +204,7 @@ void *consumidor(){
         pthread_mutex_lock(&thread_control);
         printf("21\n");
         if(espaco_livre == 20){
-            if(fim) exit(EXIT_SUCCESS); //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
+            if(fim) return; //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
             printf("21\n");
             while(espera_consumidor) espera_consumidor = pthread_cond_wait(&libera, &thread_control);
