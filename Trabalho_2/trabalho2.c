@@ -1,15 +1,20 @@
-//Login: gso14
+//Login:gso14
 //Trabalho de Sistemas Operacionais - Produtor X Consumidor
 //Descrição das funções utilizadas - cria as funções chamadas pelos processos
 
+//Bibliotecas
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <syscall.h>
+#include <fcntl.h>
 
+
+//Cria e inicializa as listas de buffer livre e cheio
 void cria_lista(){
 
+    //Elemento *fila auxiliar
     fila *aux;
     aux = (fila*)malloc(sizeof(fila));
     if(aux == NULL){
@@ -19,7 +24,7 @@ void cria_lista(){
     aux->mapa = BUFFER;
     aux->prox = NULL;
 
-   /Cria um elemento fila para cada casa do buffer disponibilizado na lista de entrada de dados
+    //Cria um elemento fila para cada casa do buffer disponibilizado na lista de entrada de dados
     inicio.entrada = aux;
     for(int i = 1; i < TAM_BUFFER; i++){
         aux->prox = (fila*)malloc(sizeof(fila));
@@ -39,6 +44,8 @@ void cria_lista(){
     free(aux);
     return;
 }
+
+
 //Transfere o primeiro elemento da fila 1 para o final da fila 2
 //fila **f1 - ponteiro da fila que tera seu elemento excluido da lista
 //fila **f2 - ponteiro da fila que tera um elemento adicionado à lista
