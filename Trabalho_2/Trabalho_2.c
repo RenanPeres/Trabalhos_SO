@@ -61,11 +61,11 @@ int main(){
     if(pthread_create(&t1, NULL, produtor, (void *) NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",p);
         exit(EXIT_FAILURE);
-    }
+    }printf("1");
     if(pthread_create(&t2, NULL, consumidor, (void *) NULL)){  //Inicia e testa o processo consumidor
         fprintf(stderr,"ERRO - pthread_create() retornou: %d\n",c);
         exit(EXIT_FAILURE);
-    }
+    }printf("2");
 
     //Espera a conclusão das threads
     pthread_join(t1, NULL);
@@ -177,7 +177,7 @@ void *produtor(void *arg){
 
     int dado = 1;  //Variável dos dados a ser escrita no buffer
     int teste = 1; //Variável de validação da condição de thread
-   
+   printf("3");
     while(dado < 200){
 
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
@@ -212,7 +212,7 @@ void *consumidor(void *arg){
 
     int dado;       //Variável dos dados a ser lida no buffer
     int teste = 1;  //Variável de validação da condição de thread
-
+	printf("4");
     while(1){
 
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
