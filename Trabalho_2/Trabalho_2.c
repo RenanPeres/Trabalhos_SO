@@ -77,7 +77,7 @@ int main(){
 void teste(){
     struct fila *aux;
     aux = inicio.entrada;
-    while(aux != NULL)printf("%d%d\n", aux->indice, BUFFER[aux->indice]);
+    while(aux != NULL){printf("%d%d\n", aux->indice, BUFFER[aux->indice]); aux = aux->prox;}
 }
 
 //Cria e inicializa as listas de buffer livre e cheio
