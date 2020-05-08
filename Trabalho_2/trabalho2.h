@@ -27,19 +27,19 @@ pthread_cond_t libera = PTHREAD_COND_INITIALIZER;           //Controla quando um
 
 //Elemento da fila de memoria disponível
 //int *mapa - armazena o endereço no buffer
-//fila *prox - endereço do próximo elemento da fila
-typedef struct{
+//struct fila *prox - endereço do próximo elemento da fila
+struct fila{
     int *mapa;
-    fila *prox;
-} fila;
+    struct fila *prox;
+};
 
 //Struct de ponteiro que armazena os endereços inicial de cada fila
-//fila *entrada - armazena o endereço do primeiro elemento da fila de buffer preenchidos
-//fila *fim - armazena o endereço do primeiro elemento da fila de buffer vazio
-typedef struct{
-    fila *entrada;
-    fila *saida;
-} ref_fila;
+//struct fila *entrada - armazena o endereço do primeiro elemento da fila de buffer preenchidos
+//struct fila *fim - armazena o endereço do primeiro elemento da fila de buffer vazio
+struct ref_fila{
+    struct fila *entrada;
+    struct fila *saida;
+};
 
 //declara e inicia a struct ref_fila para uso nas funções
 ref_fila inicio  = (ref_fila)malloc(sizeof(ref_fila));
