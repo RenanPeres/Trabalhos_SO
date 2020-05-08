@@ -174,6 +174,7 @@ void *produtor(){
 
         //Escreve no buffer
         //pthread_mutex_lock(&buffer_control);
+        printf("entrou\n");
         produz_elemento(dado);
         printf("saiu\n");
         //pthread_mutex_unlock(&buffer_control);
