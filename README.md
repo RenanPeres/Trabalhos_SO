@@ -1,6 +1,6 @@
 # Trabalhos_SO
 
-Repositório para entrega dos trabalhos 2, 3 e 4 da matéria de Sistemas Operacionais - Engenharia de Computaçãi (ICMC - USP/SC)
+Repositório para entrega dos trabalhos 2, 3 e 4 da matéria de Sistemas Operacionais - Engenharia de Computação (ICMC - USP/SC)
 
 Prof. Julio Cezar Estrella
 
