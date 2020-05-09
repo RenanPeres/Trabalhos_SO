@@ -1,7 +1,8 @@
 //Login: gso14
 //Trabalho de Sistemas Operacionais - Produtor X Consumidor
-//Código main - Cria as threads dos processos produtores e consumidores e espera até que sejam concluidas
+//Programa com processos consumidores e produtores que controla, por threads de semáforo, as regios críticas
 
+//Bliblioteca
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -45,11 +46,11 @@ struct ref_fila inicio, final;
 
 //Funções do programa
 void cria_lista();                         //Cria e inicializa as listas de buffer livre e cheio
-void troca_elementos(int n); //Transfere o primeiro elemento da fila 1 para o final da fila 2
-void produz_elemento(int dado);             //Escreve no buffer
-int consome_elemento();                     //Lê o buffer
-void *produtor();                            //Função produtor 
-void *consumidor();                          //Função consumidor
+void troca_elementos(int n);               //Transfere o primeiro elemento da fila 1 para o final da fila 2
+void produz_elemento(int dado);            //Escreve no buffer
+int consome_elemento();                    //Lê o buffer
+void *produtor();                          //Função produtor 
+void *consumidor();                        //Função consumidor
 
 int main(){
 
@@ -108,13 +109,13 @@ void cria_lista(){
 //int n - determina qual o metodo a ser realizado
 void troca_elementos(int n){
 
-    if(n == 0){
+    if(n == 0){//Retira da lista de entrada e adiciona a lista de saida
         (final.saida == NULL) ? (inicio.saida = inicio.entrada) : (final.saida->prox = inicio.entrada);
         final.saida = inicio.entrada;
         inicio.entrada = inicio.entrada->prox;
         if(inicio.entrada == NULL) final.entrada = NULL;
         final.saida->prox = NULL;
-    }else{
+    }else{//Retira da lista de saida e adiciona a lista de entrada
         (final.entrada == NULL) ? (inicio.entrada = inicio.saida) : (final.entrada->prox = inicio.saida);
         final.entrada = inicio.saida;
         inicio.saida = inicio.saida->prox;
