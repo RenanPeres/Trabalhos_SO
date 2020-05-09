@@ -6,9 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <unistd.h>
-#include <errno.h>
-#include <syscall.h>
 #include <time.h>
 
 //Buffer limitado global (disponível a todos os processos)
