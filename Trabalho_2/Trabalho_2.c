@@ -56,7 +56,7 @@ int main(){
 
     srand(time(NULL));//Para criar o valor aleatorio
     cria_lista(); //Cria e inicializa as listas de buffer livre e cheio
-    //printf("\nLeitura dos dados do Buffer:\n\n");
+    printf("\nLeitura dos dados do Buffer:\n\n");
     if(pthread_create(&t1, NULL, produtor, NULL)){   //Inicia e testa o processo produtor
         fprintf(stderr,"ERRO - pthread_create()");
         exit(EXIT_FAILURE);
@@ -156,32 +156,21 @@ void *produtor(){
   
    while(dado < 200){
         //Verifica se tem espaço livre e, caso não tenha, coloca o processo em pausa
-printf("\nProdutor tenta bloquear as flags de status para atualização\n");
         pthread_mutex_lock(&thread_control);
-printf("\nProdutor conseguiu bloquear as flags de status para atualização\n");
         if(espaco_livre == 0){
             espera_produtor = 1;
-printf("\nProddutor dorme esperando sinal de buffer livre para escrita\n");
             while(espera_produtor) espera_produtor = pthread_cond_wait(&libera, &thread_control);
-printf("\nProddutor acordou por meio de um sinal de buffer livre para escrita\n");
         }pthread_mutex_unlock(&thread_control);
-printf("\nProdutor libera as flags de status\n");
 
         //Escreve no buffer
-printf("\nProdutor tenta bloquear as flags de controle de buffer para escrita\n");
         pthread_mutex_lock(&buffer_control);
-printf("\nProdutor conseguiu bloquear as flags de controle de buffer para escrita\n");
         produz_elemento(dado);
         pthread_mutex_unlock(&buffer_control);
- printf("\nProdutor libera bloquear as flags de controle de buffer\n");
 
         //Verifica se o processo consumidor está em pausa e libera-o
-printf("\nProdutor tenta bloquear as flags de status para verificação\n");
         pthread_mutex_lock(&thread_control);
-printf("\nProdutor conseguiu bloquear as flags de status para verificação\n");
         if(espera_consumidor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
-printf("\nProdutor libera as flags de status\n");
        
         //Altera aleatoriamente o valor do dado
         dado  += (rand() % 13);
@@ -199,33 +188,22 @@ void *consumidor(){
     while(1){
 
         //Verifica se tem conteudo a ser consumido no buffer e, caso não tenha, coloca o processo em pausa
-printf("\nConsumidor tenta bloquear as flags de status para atualização\n");
         pthread_mutex_lock(&thread_control);
-printf("\nConsumidor conseguiu bloquear as flags de status para atualização\n");
         if(espaco_livre == 20){
             if(fim) return; //Verifica se o sinal de termino do produtor foi acionado, caso afirmativo, encerra sua execução
             espera_consumidor = 1;
-printf("\nConsumidor dorme esperando sinal de buffer com dados para leitura\n");
             while(espera_consumidor) espera_consumidor = pthread_cond_wait(&libera, &thread_control);
-printf("\nConsumidor acordou por meio de um sinal de buffer com dados para leitura\n");
         }pthread_mutex_unlock(&thread_control);
-printf("\nConsumidor libera as flags de status\n");
 
         //Lê o buffer
-printf("\nConsumidor tenta bloquear as flags de controle de buffer para leitura\n");
         pthread_mutex_lock(&buffer_control);
-printf("\nConsumidor conseguiu bloquear as flags de controle de buffer para leitura\n");
         dado = consome_elemento();
         pthread_mutex_unlock(&buffer_control);
-printf("\nConsumidor libera bloquear as flags de controle de buffer\n");
 
         //Verifica se o processo produtor está em pausa e libera-o
-printf("\nConsumidor tenta bloquear as flags de status para verificação\n");
         pthread_mutex_lock(&thread_control);
-printf("\nConsumidor conseguiu bloquear as flags de status para verificação\n");
         if(espera_produtor == 1) pthread_cond_signal(&libera);
         pthread_mutex_unlock(&thread_control);
-printf("\nConsumidor libera as flags de status\n");
 
         //Exibe na tela o dado lido no buffer
         printf("Novo dado lido: %d\n", dado);
