@@ -8,8 +8,8 @@
 
 //Definição dos parâmetros globais do gerenciador
 #define TAM_PAGINA 8
-#define MEM_RAM 700
-#define MEM_VIRTUAL 1000
+#define MEM_RAM 4
+#define MEM_VIRTUAL 6
 int andarilho = 0;
 
 //Elemento da fila de processos
@@ -20,7 +20,7 @@ struct pagina{
     int uso;
     int indice;
     char texto[TAM_PAGINA];
-}
+};
 
 //Indicador da fila de processos
 //int pid - identidade do processo
@@ -32,7 +32,8 @@ struct processo{
     int tamanho;
     struct pagina *inicio;
     struct processo *prox;
-}
+};
+struct processo *fila;
 
 //Fila de uso da memória
 //int livre - indice do primeiro quadro de memoria livre, se houver
@@ -41,36 +42,33 @@ struct processo{
 struct memoria{
     int livre;
     struct pagina **ponteiro;
-}
+};
+struct memoria ram, virt;
 
 
-//Declara e inicia as struct de memória (ram - principal, virtual - secundaria)
-struct memoria ram, virtual;
-ram.livre = 0;
-virtual.livre = 0;
-ram.ponteiro = (struct pagina **)calloc(MEM_RAM, sizeof(struct pagina*));
-if(ram.ponteiro == NULL){
-    printf("Erro na alocacao de memoria das estruturas do gerenciador\n");
-    return;
-}
-virtual.ponteiro = (struct pagina **)calloc(MEM_VIRTUAL, sizeof(struct pagina*));
-if(virtual.ponteiro == NULL){
-    printf("Erro na alocacao de memoria das estruturas do gerenciador\n");
-    return;
-}
 
 //Funções do programa
 void criar(struct processo **lista, int id, int tam); //Cria um processo e suas páginas no tamanho indicado (Função "C")
-void trocar(struct pagina *aux); //troca uma página na memoria secundária para a memória principal pelo método do relógio 
+void trocar(struct pagina *aux); //troca uma página na memoria secundária para a memória principal pelo método do relógio
 void escrever(struct processo **lista, int id, int b_set); //encontra, coloca em memória principal, caso ñ estivesse, e escreve no endereço lógico (Função "W")
 void ler(struct processo **lista, int id, int b_set); //encontra, coloca em memória principal, caso ñ estivesse, e lê no endereço lógico (Função "R")
 void imprimir(struct processo **lista, int id); //Exibe a tabela de alocação de um processo ou o uso da memória (Função "A")
 
-//Função main()
-int main(){
 
-    struct processo *fila;
-    fila = NULL;
+int main()
+{
+    ram.livre = 0;
+    virt.livre = 0;
+    ram.ponteiro = (struct pagina **)calloc(MEM_RAM, sizeof(struct pagina*));
+    if(ram.ponteiro == NULL){
+        printf("Erro na alocacao de memoria das estruturas do gerenciador\n");
+        return;
+    }
+    virt.ponteiro = (struct pagina **)calloc(MEM_VIRTUAL, sizeof(struct pagina*));
+    if(virt.ponteiro == NULL){
+        printf("Erro na alocacao de memoria das estruturas do gerenciador\n");
+        return;
+    }fila = NULL;
     char funcao;
     int dado1;
     int dado2;
@@ -81,20 +79,28 @@ int main(){
 
     while(1){
         scanf("%c", &funcao);
+        fflush(stdin);
         switch (funcao){
             case 'C': //Criar
                 scanf("%d", &dado1);
+                fflush(stdin);
                 scanf("%d", &dado2);
-                criar(&fila, dado1, dado2);
+                fflush(stdin);
+                if(dado2 > TAM_PAGINA*(MEM_RAM - ram.livre + MEM_VIRTUAL - virt.livre)) printf("Espaço insuficiente em memoria, aguarde!\n");
+                else criar(&fila, dado1, dado2);
                 break;
             case 'W': //Escrever
                 scanf("%d", &dado1);
+                fflush(stdin);
                 scanf("%d", &dado2);
+                fflush(stdin);
                 escrever(&fila, dado1, dado2);
                 break;
             case 'R': //Ler
                 scanf("%d", &dado1);
+                fflush(stdin);
                 scanf("%d", &dado2);
+                fflush(stdin);
                 ler(&fila, dado1, dado2);
                 break;
             case 'P':
@@ -105,7 +111,8 @@ int main(){
                 break;
             case 'A': //Imprimir
                 scanf("%d", &dado1);
-                criar(&fila, dado1);
+                fflush(stdin);
+                imprimir(&fila, dado1);
                 break;
             case 'X': //Sair
                 return;
@@ -114,6 +121,7 @@ int main(){
         }
     }
 }
+
 
 //Criar um processo (Função "C")
 //struct processo **lista - lista de processos
@@ -150,27 +158,28 @@ void criar(struct processo **lista, int id, int tam){
 
 //Criando as páginas de memoria do processo e alocando em RAM
     aux->inicio = (struct pagina *)calloc(num_quadros, sizeof(struct pagina));
-    if(aux->prox == NULL){
-            printf("Erro na alocacao de memoria para o processo\n");
+    if(aux->inicio == NULL){
+            printf("Erro na alocacao de memoria para as paginas do processo\n");
             return;
     }for(int i = 0; i < num_quadros; i++){
         if(ram.livre < MEM_RAM){
-            ram.ponteiro[ram.livre] -> (aux->inicio[i]);
+            ram.ponteiro[ram.livre] = &aux->inicio[i];
             ram.livre++;
         }else{
             while(ram.ponteiro[andarilho]->uso){
                 ram.ponteiro[andarilho]->uso = 0;
                 andarilho = (andarilho + 1) % MEM_RAM;
             }
-            virtual.ponteiro[virtual.livre] = ram.ponteiro[andarilho];
-            virtual.ponteiro[virtual.livre]->uso = -1;
-            virtual.ponteiro[virtual.livre]->indice = virtual.livre;
-            virtual.livre++;
-            ram.ponteiro[andarilho] -> (aux->inicio[i]);
+            virt.ponteiro[virt.livre] = ram.ponteiro[andarilho];
+            virt.ponteiro[virt.livre]->uso = -1;
+            virt.ponteiro[virt.livre]->indice = virt.livre;
+            virt.livre++;
+            ram.ponteiro[andarilho] = &aux->inicio[i];
             andarilho = (andarilho + 1) % MEM_RAM;
         }
         aux->inicio[i].uso = 0;
         aux->inicio[i].indice = i;
+        for(int j=0; j<TAM_PAGINA; j++) aux->inicio[i].texto[j] = '0';
     }
     return;
 }
@@ -182,14 +191,14 @@ void trocar(struct pagina *aux){
     while(ram.ponteiro[andarilho]->uso){
         ram.ponteiro[andarilho]->uso = 0;
         andarilho = (andarilho + 1) % MEM_RAM;
-    }virtual.ponteiro[aux->indice] = ram.ponteiro[andarilho];
-    virtual.ponteiro[aux->indice]->uso = -1;
-    virtual.ponteiro[aux->indice]->indice = aux->indice;
+    }virt.ponteiro[aux->indice] = ram.ponteiro[andarilho];
+    virt.ponteiro[aux->indice]->uso = -1;
+    virt.ponteiro[aux->indice]->indice = aux->indice;
     ram.ponteiro[andarilho] = aux;
     ram.ponteiro[andarilho]->uso = 0;
     ram.ponteiro[andarilho]->indice = andarilho;
-    andarilho = (andarilho + 1) % MEM_RAM;  
-    return;  
+    andarilho = (andarilho + 1) % MEM_RAM;
+    return;
 }
 
 //Escrever em um endereço lógico (Função "W")
@@ -205,7 +214,8 @@ void escrever(struct processo **lista, int id, int b_set){
         if(aux->pid == id){
             if(aux->tamanho > b_set){
                 if(aux->inicio[num_quadro].uso == -1) trocar(&aux->inicio[num_quadro]); //Caso a página não esteja em memória principal realiza a paginação
-                (aux->inicio[num_quadro]).texto[b_set%TAM_PAGINA] = 1;
+                if(aux->inicio[num_quadro].uso == 0) aux->inicio[num_quadro].uso = 1;
+                (aux->inicio[num_quadro]).texto[b_set%TAM_PAGINA] = '1';
                 return;
             }else{
                 printf("o processo eh menor do que o informado\n");
@@ -253,17 +263,20 @@ void imprimir(struct processo **lista, int id){
     aux = *lista;
     int num_quadros;
 
-    if(flag == 0){ //Exibe o uso e os dados na memória
+    if(id == 0){ //Exibe o uso e os dados na memória
         printf("Uso da Memoria Principal:\n\n\n");
         for(int i = 0; i < ram.livre; i++){
-            printf("Quadro: %d     Dado: %s     ", i, ram.ponteiro[i]->texto);
-            if(ram.ponteiro[i]->uso)  printf("Segunda chance: sim\n");
-            else printf("Segunda chance: nao\n");
+            printf("Quadro: %d     Dado:", i);
+            for(int j = 0; j < TAM_PAGINA; j++) printf("%c",ram.ponteiro[i]->texto[j]);
+            if(ram.ponteiro[i]->uso)  printf("     Segunda chance: sim\n");
+            else printf("     Segunda chance: nao\n");
         }printf("\n\n\n");
         printf("Uso da Memoria Secundaria:\n\n\n");
-        for(int i = 0; i < virtual.livre; i++){
-            printf("Quadro: %d     Dado: %s\n", i, ram.ponteiro[i]->texto);
-        }printf("\n\n\n");
+        for(int i = 0; i < virt.livre; i++){
+            printf("Quadro: %d     Dado:", i);
+            for(int j = 0; j < TAM_PAGINA; j++) printf("%c",ram.ponteiro[i]->texto[j]);
+            printf("\n");
+        }printf("\n\n");
         return;
     }else{ //Exibe as atribuições de páginas de um processo id
         while(aux != NULL){
@@ -276,8 +289,7 @@ void imprimir(struct processo **lista, int id){
                     printf("Pagina do Processo: %d     ", i);
                     if((aux->inicio[i]).uso == -1) printf("em Memoria Secundaria quadro %d\n", (aux->inicio[i]).indice);
                     else printf("em Memoria Principal quadro %d\n", (aux->inicio[i]).indice);
-                    return;
-                }
+                }return;
             }
             aux = aux->prox;
         }
