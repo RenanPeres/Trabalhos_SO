@@ -84,6 +84,11 @@ int main()
     printf("Tamanho da Secunaria: %d paginas (%d bytes)\n\n", MEM_VIRTUAL, (MEM_VIRTUAL*TAM_PAGINA));
 
     while(1){
+        //Digite a função que deseja (letra maiuscula associada) e aperte enter
+        //Para C, digite o ID do processo e aperte enter, após, numero de quadros e enter
+        //Para W e R, digite o ID do processo e aperte enter, após, numero do endereço
+        //Para P e I digite o ID do processo e aperte enter, após, digite os identificadores especificos
+        //Para A (imprimir) digite o ID do processo e aperte enter (ID = 0 -> panorama da memória)
         fgets(leitura,10,stdin);
         funcao = (char)leitura[0];
         switch (funcao){
